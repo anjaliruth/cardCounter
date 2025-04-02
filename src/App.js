@@ -2,8 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 import Card from './Card';
 import Shoe from './Shoe';
+import { useContext, createContext, useState } from 'react';
 
+export const DrawPileContext = createContext();
 function App() {
+  const [ drawPile, setDrawPile ] = useState([]);
   // create deck of cards
   //create a shoe of 6 decks
   //create draw pile
@@ -18,13 +21,14 @@ function App() {
  // allow for multiple players
 
 
-  
   return (
     <div className="App">
       {/* <header className="App-header">
         hello!
       </header> */}
+      <DrawPileContext.Provider value={{drawPile, setDrawPile}}>
       <Shoe/>
+      </DrawPileContext.Provider>
     </div>
   );
 }

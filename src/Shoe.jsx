@@ -1,7 +1,10 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Card from "./Card";
-
+import { DrawPileContext } from "./App.js";
 export default function Shoe() {
+  const [players, setPlayers] = useState(2);
+  const [hands, setHands] = useState([{}]);
+  const { drawPile, setDrawPile } = useContext(DrawPileContext);
   //create a full deck of cards
   function numbers() {
     let numbersArray = [];
@@ -15,10 +18,9 @@ export default function Shoe() {
   let shapes = ["♣️", "❤️", "♠️", "♦️"];
   let shoe = 6;
 
-  const [ drawPile, setDrawPile ] = useState([]);
-
-  //## get all 52 x 6 card data
-  //store them in a state called Draw pile
+  //## get all 52 x 6 card datadata✅
+  //store them in a state called Draw pile✅
+  //shuffle cards
   //set the number of people
   //draw cards
 
@@ -38,39 +40,69 @@ export default function Shoe() {
     return cardData;
   }
 
-
   function shuffle(array) {
-    for (let i = 0; i < drawPile.length; i++) {
-      const j = Math.floor(Math.random()* (i+1))
-      [array[i], array[j]] = [ array[j],array[i]]
+    for (let i = 0; i < array.length; i++) {
+      const j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
     }
-    return array
+    return array;
   }
   function entireShoe() {
     let shoePile = [];
-    let singleDeck = NewDeck()
-      for (let i = 0; i < shoe; i++) {
-        shoePile.push(...singleDeck);
+    let singleDeck = NewDeck();
+    for (let i = 0; i < shoe; i++) {
+      shoePile.push(...singleDeck);
+    }
+    setDrawPile(shuffle(shoePile));
+  }
+
+  useEffect(() => {
+    entireShoe();
+  }, []);
+
+  function releaseCards() {
+    let rounds = 2;
+    let dealtHands = [];
+    let currentDrawPile = [...drawPile]
+    for (let i = 0; i < rounds; i++) {
+      for (let j = 0; j < players; j++) {
+        let currentCard = currentDrawPile[currentDrawPile.length-1]
+        let indCardData = { value: currentCard.value, suit: currentCard.suit };
+        dealtHands.push(indCardData);
+        currentDrawPile = currentDrawPile.slice(0, -1)
       }
-      setDrawPile(shoePile)
+    }
+    setHands(dealtHands)
+    setDrawPile(currentDrawPile)
+    //for loop for rounds
+    //in each round, inner for loop to go thorugh the amount of players and release a card from drawPile for them
+    //use the hands to calculate count
   }
+  // function releaseCards() {
+  //   let rounds = 2;
+  //   let dealtHands = [];
 
-
-  useEffect(()=> {
-      entireShoe()
-  }, [])
-
-
-  function startGame() {
-
-
-console.log(drawPile, "drawPile")
-console.log("hello")
-  }
+  //   for (let i = 0; i < rounds; i++) {
+  //     for (let j = 0; j < players; j++) {
+  //       let currentCard = drawPile[drawPile.length - 1];
+  //       setDrawPile((curr) => curr.slice(0, -1));
+  //       let indCardData = { value: currentCard.value, suit: currentCard.suit };
+  //       dealtHands.push(indCardData);
+  //     }
+  //   }
+  //   setHands(dealtHands)
+  //   //for loop for rounds
+  //   //in each round, inner for loop to go thorugh the amount of players and release a card from drawPile for them
+  //   //use the hands to calculate count
+  // }
+  console.log(drawPile, "drawPile1");
+  console.log("hello");
+  console.log(hands, "Hands")
   return (
     <div>
-    <button onClick={startGame}> Start Game</button>
-  {drawPile.map((data, i)=> <Card value={data.value} suit={data.suit} />)}
+      <button onClick={releaseCards}> Start Round</button>
     </div>
   );
 }
