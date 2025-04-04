@@ -63,40 +63,45 @@ export default function Shoe() {
   }, []);
 
   function releaseCards() {
-    let rounds = 2;
-    let dealtHands = [];
-    let currentDrawPile = [...drawPile]
-    for (let i = 0; i < rounds; i++) {
-      for (let j = 0; j < players; j++) {
-        let currentCard = currentDrawPile[currentDrawPile.length-1]
-        let indCardData = { value: currentCard.value, suit: currentCard.suit };
-        dealtHands.push(indCardData);
-        currentDrawPile = currentDrawPile.slice(0, -1)
+
+    let rounds = 2
+    let dealtHands = []
+      let updatedDrawPile = [...drawPile]
+      for (let i = 0; i < rounds; i++){
+        for (let j = 0; j < players; j++) {
+          if (updatedDrawPile.length=== 0) break
+          let currentCard = updatedDrawPile.pop()
+          dealtHands.push(currentCard)
+        }
       }
-    }
-    setHands(dealtHands)
-    setDrawPile(currentDrawPile)
-    //for loop for rounds
-    //in each round, inner for loop to go thorugh the amount of players and release a card from drawPile for them
-    //use the hands to calculate count
+      setHands(dealtHands)
+      setDrawPile(updatedDrawPile)
   }
+
+
+
+  //this one produces double hands idk why
   // function releaseCards() {
   //   let rounds = 2;
   //   let dealtHands = [];
-
-  //   for (let i = 0; i < rounds; i++) {
-  //     for (let j = 0; j < players; j++) {
-  //       let currentCard = drawPile[drawPile.length - 1];
-  //       setDrawPile((curr) => curr.slice(0, -1));
-  //       let indCardData = { value: currentCard.value, suit: currentCard.suit };
-  //       dealtHands.push(indCardData);
+  
+  //   setDrawPile((currDrawPile) => {  // ✅ Functional update ensures latest state
+  //     let newDrawPile = [...currDrawPile];
+  
+  //     for (let i = 0; i < rounds; i++) {
+  //       for (let j = 0; j < players; j++) {
+  //         if (newDrawPile.length === 0) return currDrawPile; // ✅ Prevent errors if empty
+  
+  //         let currentCard = newDrawPile.pop(); // ✅ Removes last card safely
+  //         dealtHands.push(currentCard);
+  //       }
   //     }
-  //   }
-  //   setHands(dealtHands)
-  //   //for loop for rounds
-  //   //in each round, inner for loop to go thorugh the amount of players and release a card from drawPile for them
-  //   //use the hands to calculate count
+  
+  //     setHands(dealtHands); // ✅ Update hands AFTER processing all cards
+  //     return newDrawPile;   // ✅ Return updated draw pile
+  //   });
   // }
+
   console.log(drawPile, "drawPile1");
   console.log("hello");
   console.log(hands, "Hands")
