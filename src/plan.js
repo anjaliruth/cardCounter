@@ -12,3 +12,7 @@
 
 //set card count
 //set counter to 21 for each position
+
+
+//Design 
+//get rid of cards if count is > 21

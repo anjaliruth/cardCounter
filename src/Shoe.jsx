@@ -8,7 +8,9 @@ export default function Shoe() {
   const { drawPile, setDrawPile } = useContext(DrawPileContext);
   const [position, setPosition] = useState(null);
   const [value, setValue] = useState();
-  const [playerCardCount, setPlayerCardCount]= useState([])
+  const [playerCardCount, setPlayerCardCount] = useState([]);
+  const pictures = ["J", "Q", "K"];
+  const isPicture = (card) => pictures.includes(card);
   //create a full deck of cards
   function numbers() {
     let numbersArray = [];
@@ -98,16 +100,22 @@ export default function Shoe() {
     console.log(drawPile, "drawPile");
     console.log(hands, "hands");
 
-    const currentCardCount = countTo21()
-    playerCardCount[position]=currentCardCount
+    const currentCardCount = countTo21();
+    playerCardCount[position] = currentCardCount;
+  
   }
 
   function countTo21() {
-
-    const sum = hands[position].reduce((accumulator, currentValue)=> accumulator+ currentValue.value, 0)
-
-    return sum
-
+    return hands[position].reduce(function changePicture(
+      accumulator,
+      currentValue
+    ) {
+      if (isPicture(currentValue.value)) {
+        return accumulator + 10;
+      }
+      return accumulator + currentValue.value;
+    },
+    0);
   }
 
   function stay() {
@@ -123,7 +131,7 @@ export default function Shoe() {
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
     }
-    console.log(countTo21(), "countto21")
+    console.log(countTo21(), "countto21");
   }
   function assignHands() {
     let rounds = 2;
@@ -170,7 +178,7 @@ export default function Shoe() {
   console.log(position, "position");
   console.log(drawPile, "drawPile1");
   console.log(hands, "Hands");
-  console.log(playerCardCount, setPlayerCardCount)
+  console.log(playerCardCount, "playerCardCount");
   return (
     <div>
       <button onClick={startGame}> Start Round</button>
@@ -193,10 +201,10 @@ export default function Shoe() {
         hands.slice(0, players).map((secondCard, i) => (
           <div>
             <Card value={secondCard[1].value} suit={secondCard[1].suit} />
-            <button onClick={hitCards} disabled={position !== i}>
-              Take Card
+            <button onClick={hitCards} disabled={position !== i && playerCardCount[position] > 21}>
+              Take Card {playerCardCount[position] > 21}
             </button>
-            <button onClick={stay} disabled={position !== i}>
+            <button onClick={stay} disabled={position !== i && playerCardCount[position] > 21}>
               Stay
             </button>
           </div>
