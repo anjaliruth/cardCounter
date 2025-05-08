@@ -7,7 +7,7 @@ export default function Shoe() {
   const [playing, setPlaying] = useState(false);
   const { drawPile, setDrawPile } = useContext(DrawPileContext);
   const [position, setPosition] = useState(null);
-  const [value, setValue] = useState();
+  const [isDealer, setIsDealer] = useState(false);
   const [playerCardCount, setPlayerCardCount] = useState([]);
   const pictures = ["J", "Q", "K"];
   const isPicture = (card) => pictures.includes(card);
@@ -68,62 +68,45 @@ export default function Shoe() {
     entireShoe();
   }, []);
 
-  // function releaseCards() {
-  //   let rounds = 2;
-  //   let dealtHands = [];
-  //   let updatedDrawPile = [...drawPile];
-  //   for (let i = 0; i < rounds*players-1; i++) {
-  //       if (updatedDrawPile.length === 0) break;
-  //       let currentCard = updatedDrawPile.pop();
-  //       dealtHands.push(currentCard);
-  //   }
-  //   setHands(dealtHands);
-  //   setDrawPile(updatedDrawPile);
-  // }
+  useEffect(()=>{
 
-  //assigning Hands
-  //for loop to settle the order of cards coming out
-  //remove these cards from the deck
-  //2 players
-  //5 cards, p1,p2,d,p1,p2
 
+  }, [isDealer])
+
+  function calculatePlayerCardCount() {
+    const currentCardCount = countTo21();
+    console.log(position, "position inside");
+    if (playerCardCount.length === position) {
+      setPlayerCardCount([...playerCardCount, currentCardCount]);
+      console.log(playerCardCount, "playerCardCount no length");
+    } else {
+      let currCardCount = playerCardCount;
+      currCardCount.splice(position, 1, currentCardCount);
+      setPlayerCardCount(currCardCount);
+      console.log(playerCardCount, "playerCardCount yes length");
+    }
+    return currentCardCount;
+  }
   function hitCards() {
-    let rounds = 2;
-    let newCard = [];
     let updatedDrawPile = [...drawPile];
     let dealtHands = [...hands];
-    // if (updatedDrawPile.length === 0) break
     let currentCard = updatedDrawPile.pop();
     dealtHands[position].push(currentCard);
     setDrawPile(updatedDrawPile);
     setHands(dealtHands);
-    console.log(drawPile, "drawPile");
     console.log(hands, "hands");
 
-    const currentCardCount = countTo21();
-    playerCardCount[position] = currentCardCount;
-  
-  }
-
-  function countTo21() {
-    return hands[position].reduce(function changePicture(
-      accumulator,
-      currentValue
-    ) {
-      if (isPicture(currentValue.value)) {
-        return accumulator + 10;
-      }
-      return accumulator + currentValue.value;
-    },
-    0);
-  }
-
-  function stay() {
-    let currPosition = position + 1;
-    setPosition(currPosition);
-
+    let currentCardCount = calculatePlayerCardCount();
+    console.log(currentCardCount, "outside if more");
+    let currPosition;
+    if (currentCardCount > 21) {
+      console.log(currentCardCount, "inside if more");
+      currPosition = position + 1;
+      setPosition(currPosition);
+    }
+    //dealers cards
     if (currPosition === players) {
-      console.log("last position");
+      setIsDealer(true);
       let updatedDrawPile = [...drawPile];
       let dealtHands = [...hands];
       let currentCard = updatedDrawPile.pop();
@@ -131,7 +114,65 @@ export default function Shoe() {
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
     }
-    console.log(countTo21(), "countto21");
+  }
+
+  function countTo21() {
+    let isSoft = false;
+    const count = hands[position].reduce(function changePicture(
+      accumulator,
+      currentValue
+    ) {
+      if (currentValue.value === "A") {
+        if (accumulator + 11 < 21) {
+          isSoft = true;
+          return accumulator + 11;
+        } else {
+          return accumulator + 1;
+        }
+      }
+      //previous value is Ace
+
+      if (isPicture(currentValue.value)) {
+        return accumulator + 10;
+      }
+      //need to move this out
+      return accumulator + currentValue.value;
+    },
+    0);
+    if (isSoft && count > 21) {
+      isSoft = false;
+      console.log(isSoft, "isSoft");
+      return count - 10;
+    }
+    return count;
+  }
+
+  function stay() {
+    calculatePlayerCardCount();
+
+    console.log(position, "position before");
+    let currPosition = position + 1;
+    setPosition(currPosition);
+    console.log(position, "position +1");
+    //dealers cards
+    if (currPosition === players) {
+      setIsDealer(true)
+      let updatedDrawPile = [...drawPile];
+      let dealtHands = [...hands];
+      let currentCard = updatedDrawPile.pop();
+      dealtHands[position + 1].push(currentCard);
+      setDrawPile(updatedDrawPile);
+      setHands(dealtHands);
+      console.log(position, "positionx");
+      //below is calculating for last position before dealer. Figure out why
+      console.log(calculatePlayerCardCount(), "calc for dealer");
+    }
+
+    const currentCardCount = countTo21();
+    if (currentCardCount > 21) {
+      let currPosition = position + 1;
+      setPosition(currPosition);
+    }
   }
   function assignHands() {
     let rounds = 2;
@@ -175,10 +216,12 @@ export default function Shoe() {
     setPlaying(!playing);
     setPosition(0);
   }
-  console.log(position, "position");
-  console.log(drawPile, "drawPile1");
+  console.log(position, "general position");
   console.log(hands, "Hands");
+  // console.log(countTo21([{value: 'A'}, {value: '3'}, 'A,3']))
+  console.log(hands[position], "hands[position]");
   console.log(playerCardCount, "playerCardCount");
+  console.log(drawPile, "drawPile");
   return (
     <div>
       <button onClick={startGame}> Start Round</button>
@@ -201,10 +244,10 @@ export default function Shoe() {
         hands.slice(0, players).map((secondCard, i) => (
           <div>
             <Card value={secondCard[1].value} suit={secondCard[1].suit} />
-            <button onClick={hitCards} disabled={position !== i && playerCardCount[position] > 21}>
-              Take Card {playerCardCount[position] > 21}
+            <button onClick={hitCards} disabled={position !== i}>
+              Take Card
             </button>
-            <button onClick={stay} disabled={position !== i && playerCardCount[position] > 21}>
+            <button onClick={stay} disabled={position !== i}>
               Stay
             </button>
           </div>
