@@ -73,15 +73,18 @@ export default function Shoe() {
 
   }, [isDealer])
 
-  function calculatePlayerCardCount() {
-    const currentCardCount = countTo21();
+  function calculatePlayerCardCount(currPosition) {
+    const currentCardCount = countTo21(currPosition);
     console.log(position, "position inside");
-    if (playerCardCount.length === position) {
+
+
+
+    if (playerCardCount.length === currPosition) {
       setPlayerCardCount([...playerCardCount, currentCardCount]);
       console.log(playerCardCount, "playerCardCount no length");
     } else {
       let currCardCount = playerCardCount;
-      currCardCount.splice(position, 1, currentCardCount);
+      currCardCount.splice(currPosition, 1, currentCardCount);
       setPlayerCardCount(currCardCount);
       console.log(playerCardCount, "playerCardCount yes length");
     }
@@ -96,9 +99,9 @@ export default function Shoe() {
     setHands(dealtHands);
     console.log(hands, "hands");
 
-    let currentCardCount = calculatePlayerCardCount();
+    let currentCardCount = calculatePlayerCardCount(position);
     console.log(currentCardCount, "outside if more");
-    let currPosition;
+    let currPosition = position
     if (currentCardCount > 21) {
       console.log(currentCardCount, "inside if more");
       currPosition = position + 1;
@@ -116,9 +119,9 @@ export default function Shoe() {
     }
   }
 
-  function countTo21() {
+  function countTo21(currPosition) {
     let isSoft = false;
-    const count = hands[position].reduce(function changePicture(
+    const count = hands[currPosition].reduce(function changePicture(
       accumulator,
       currentValue
     ) {
@@ -148,10 +151,10 @@ export default function Shoe() {
   }
 
   function stay() {
-    calculatePlayerCardCount();
+    calculatePlayerCardCount(position);
+    let currPosition = position+1;
 
     console.log(position, "position before");
-    let currPosition = position + 1;
     setPosition(currPosition);
     console.log(position, "position +1");
     //dealers cards
@@ -165,10 +168,10 @@ export default function Shoe() {
       setHands(dealtHands);
       console.log(position, "positionx");
       //below is calculating for last position before dealer. Figure out why
-      console.log(calculatePlayerCardCount(), "calc for dealer");
+      console.log(calculatePlayerCardCount(currPosition), "calc for dealer");
     }
 
-    const currentCardCount = countTo21();
+    const currentCardCount = countTo21(currPosition);
     if (currentCardCount > 21) {
       let currPosition = position + 1;
       setPosition(currPosition);
