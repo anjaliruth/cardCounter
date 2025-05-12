@@ -68,22 +68,12 @@ export default function Shoe() {
     entireShoe();
   }, []);
 
-  useEffect(() => {}, [isDealer]);
-
   function calculatePlayerCardCount(currPosition) {
     const currentCardCount = countTo21(currPosition);
-    console.log(position, "position inside");
-    let paper;
 
     // right now, the dealers cards anre overwriting the the last players count. This is because the if statements are wrong. I need to figure out how to change it.
-    if (
-      playerCardCount.length === currPosition + 1 &&
-      currPosition !== players
-    ) {
-      console.log(currPosition, "currPosition in if");
-      paper = [...playerCardCount, currentCardCount];
-      console.log(paper, "paper");
-      let currCardCount = playerCardCount;
+    if (playerCardCount.length === currPosition + 1) {
+      let currCardCount = [...playerCardCount];
       currCardCount.splice(currPosition, 1, currentCardCount);
       setPlayerCardCount(currCardCount);
       console.log(currentCardCount, "playerCardCount not equal length");
@@ -129,9 +119,13 @@ export default function Shoe() {
     if (isDealer) {
       calculatePlayerCardCount(position);
     }
-    console.log(playerCardCount, 'dealers cards?')
-    console.log(position, 'dealers cards position?')
-    
+    console.log(playerCardCount, "dealers cards?");
+    console.log(position, "dealers cards position?");
+  }, [isDealer]);
+
+  useEffect(() => {
+    if (playerCardCount[position] === undefined) return;
+console.log(playerCardCount[position], 'playerCardCound position outside 17 if')
     if (playerCardCount[position] < 17) {
       let updatedDrawPile = [...drawPile];
       let dealtHands = [...hands];
@@ -139,9 +133,11 @@ export default function Shoe() {
       dealtHands[position].push(currentCard);
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
-      calculatePlayerCardCount(position);
+      console.log(playerCardCount[position], "playerCardCount[position] inside 17 if");
     }
-  }, [isDealer]);
+
+    calculatePlayerCardCount(position);
+  }, [playerCardCount[position]]);
 
   function countTo21(currPosition) {
     let isSoft = false;
