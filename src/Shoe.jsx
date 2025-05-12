@@ -68,25 +68,32 @@ export default function Shoe() {
     entireShoe();
   }, []);
 
-  useEffect(()=>{
-
-
-  }, [isDealer])
+  useEffect(() => {}, [isDealer]);
 
   function calculatePlayerCardCount(currPosition) {
     const currentCardCount = countTo21(currPosition);
     console.log(position, "position inside");
+    let paper;
 
-
-
-    if (playerCardCount.length === currPosition) {
-      setPlayerCardCount([...playerCardCount, currentCardCount]);
-      console.log(playerCardCount, "playerCardCount no length");
-    } else {
+    // right now, the dealers cards anre overwriting the the last players count. This is because the if statements are wrong. I need to figure out how to change it.
+    if (
+      playerCardCount.length === currPosition + 1 &&
+      currPosition !== players
+    ) {
+      console.log(currPosition, "currPosition in if");
+      paper = [...playerCardCount, currentCardCount];
+      console.log(paper, "paper");
       let currCardCount = playerCardCount;
       currCardCount.splice(currPosition, 1, currentCardCount);
       setPlayerCardCount(currCardCount);
-      console.log(playerCardCount, "playerCardCount yes length");
+      console.log(currentCardCount, "playerCardCount not equal length");
+
+      console.log(playerCardCount, "playerCardCount paper");
+    } else {
+      console.log(currPosition, "currPosition in else");
+      console.log(currentCardCount, "playerCardCount equal length");
+
+      setPlayerCardCount([...playerCardCount, currentCardCount]);
     }
     return currentCardCount;
   }
@@ -97,11 +104,10 @@ export default function Shoe() {
     dealtHands[position].push(currentCard);
     setDrawPile(updatedDrawPile);
     setHands(dealtHands);
-    console.log(hands, "hands");
 
     let currentCardCount = calculatePlayerCardCount(position);
     console.log(currentCardCount, "outside if more");
-    let currPosition = position
+    let currPosition = position;
     if (currentCardCount > 21) {
       console.log(currentCardCount, "inside if more");
       currPosition = position + 1;
@@ -118,6 +124,24 @@ export default function Shoe() {
       setHands(dealtHands);
     }
   }
+
+  useEffect(() => {
+    if (isDealer) {
+      calculatePlayerCardCount(position);
+    }
+    console.log(playerCardCount, 'dealers cards?')
+    console.log(position, 'dealers cards position?')
+    
+    if (playerCardCount[position] < 17) {
+      let updatedDrawPile = [...drawPile];
+      let dealtHands = [...hands];
+      let currentCard = updatedDrawPile.pop();
+      dealtHands[position].push(currentCard);
+      setDrawPile(updatedDrawPile);
+      setHands(dealtHands);
+      calculatePlayerCardCount(position);
+    }
+  }, [isDealer]);
 
   function countTo21(currPosition) {
     let isSoft = false;
@@ -151,15 +175,17 @@ export default function Shoe() {
   }
 
   function stay() {
-    calculatePlayerCardCount(position);
-    let currPosition = position+1;
+    let currPosition = position;
+    let x = calculatePlayerCardCount(currPosition);
+    console.log(x, "x");
+    currPosition = position + 1;
 
     console.log(position, "position before");
     setPosition(currPosition);
     console.log(position, "position +1");
     //dealers cards
     if (currPosition === players) {
-      setIsDealer(true)
+      setIsDealer(true);
       let updatedDrawPile = [...drawPile];
       let dealtHands = [...hands];
       let currentCard = updatedDrawPile.pop();
@@ -168,7 +194,7 @@ export default function Shoe() {
       setHands(dealtHands);
       console.log(position, "positionx");
       //below is calculating for last position before dealer. Figure out why
-      console.log(calculatePlayerCardCount(currPosition), "calc for dealer");
+      // console.log(calculatePlayerCardCount(currPosition), "calc for dealer");
     }
 
     const currentCardCount = countTo21(currPosition);
