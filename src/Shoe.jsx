@@ -10,7 +10,9 @@ export default function Shoe() {
   const [isDealer, setIsDealer] = useState(false);
   const [playerCardCount, setPlayerCardCount] = useState([]);
   const pictures = ["J", "Q", "K"];
+  const [runningCount, setRunningCount] = useState(0);
   const isPicture = (card) => pictures.includes(card);
+
   //create a full deck of cards
   function numbers() {
     let numbersArray = [];
@@ -34,6 +36,29 @@ export default function Shoe() {
   //do count
   //end of hand
   //calculate remainder of draw pile
+
+  function addtoRunningCount(card) {
+    let count = 0;
+    let lowCards = [2, 3, 4, 5, 6];
+    let highCards = [10, "J", "Q", "K", "A"];
+    console.log(runningCount, "count in addto Running Count before ");
+    if (lowCards.includes(card.value)) {
+      console.log(card.value, "card.value low");
+      count = count + 1;
+      console.log(count, "count! low");
+      setRunningCount(count);
+    }
+    if (highCards.includes(card.value)) {
+      console.log(card.value, "card.value high");
+      console.log(count, "count! high");
+      count = count - 1;
+      setRunningCount(count);
+    } else {
+      console.log(count, "count! neutral");
+    }
+    // console.log(count, 'count! outside')
+    console.log(runningCount, "count in addto Running Countafter");
+  }
 
   function newDeck() {
     let cardData = [];
@@ -125,7 +150,10 @@ export default function Shoe() {
 
   useEffect(() => {
     if (playerCardCount[position] === undefined) return;
-console.log(playerCardCount[position], 'playerCardCound position outside 17 if')
+    console.log(
+      playerCardCount[position],
+      "playerCardCound position outside 17 if"
+    );
     if (playerCardCount[position] < 17) {
       let updatedDrawPile = [...drawPile];
       let dealtHands = [...hands];
@@ -133,7 +161,10 @@ console.log(playerCardCount[position], 'playerCardCound position outside 17 if')
       dealtHands[position].push(currentCard);
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
-      console.log(playerCardCount[position], "playerCardCount[position] inside 17 if");
+      console.log(
+        playerCardCount[position],
+        "playerCardCount[position] inside 17 if"
+      );
     }
 
     calculatePlayerCardCount(position);
@@ -194,7 +225,7 @@ console.log(playerCardCount[position], 'playerCardCound position outside 17 if')
     }
 
     const currentCardCount = countTo21(currPosition);
-    if (currentCardCount > 21) {
+    if (currentCardCount >= 21) {
       let currPosition = position + 1;
       setPosition(currPosition);
     }
@@ -207,6 +238,8 @@ console.log(playerCardCount[position], 'playerCardCound position outside 17 if')
     for (let i = 0; i < rounds * players + 1; i++) {
       if (updatedDrawPile.length === 0) break;
       let currentCard = updatedDrawPile.pop();
+      addtoRunningCount(currentCard);
+      console.log(runningCount, "running count in for loop");
       order.push(currentCard);
     }
     console.log(order, "order");
@@ -247,6 +280,7 @@ console.log(playerCardCount[position], 'playerCardCound position outside 17 if')
   console.log(hands[position], "hands[position]");
   console.log(playerCardCount, "playerCardCount");
   console.log(drawPile, "drawPile");
+  console.log(runningCount, "runningCount");
   return (
     <div>
       <button onClick={startGame}> Start Round</button>
