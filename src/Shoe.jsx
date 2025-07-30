@@ -45,8 +45,7 @@ export default function Shoe() {
       console.log(card.value, "card.value low");
       setRunningCount((prev) => prev + 1);
       console.log(runningCount, "runningCount", card.value);
-    }
-    else if (highCards.includes(card.value)) {
+    } else if (highCards.includes(card.value)) {
       console.log(card.value, "card.value high");
       setRunningCount((prev) => prev - 1);
       console.log(runningCount, "runningCount", card.value);
@@ -187,7 +186,7 @@ export default function Shoe() {
       //need to move this out
       return accumulator + currentValue.value;
     },
-      0);
+    0);
     if (isSoft && count > 21) {
       isSoft = false;
       console.log(isSoft, "isSoft");
@@ -278,6 +277,34 @@ export default function Shoe() {
   return (
     <div>
       <button onClick={startGame}> Start Round</button>
+
+      <div className="displayArea">
+        {hands.map((hand, playerIndex) => (
+          <div className="playArea">
+            <div className="playerSection">
+              <div className="playerCards">
+                {hand.map((card, cardIndex) => (
+                  <Card value={card.value} suit={card.suit} />
+                ))}
+              </div>
+              {playerIndex !== hands.length-1 && (
+                <div>
+                  <button
+                    onClick={hitCards}
+                    disabled={position !== playerIndex}
+                  >
+                    Take Card
+                  </button>
+                  <button onClick={stay} disabled={position !== playerIndex}>
+                    Stay
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* players first cards */}
       {playing &&
         hands
