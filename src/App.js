@@ -23,9 +23,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <header className="App-header">
-        hello!
-      </header> */}
       <DrawPileContext.Provider value={{drawPile, setDrawPile}}>
       <Shoe/>
       </DrawPileContext.Provider>

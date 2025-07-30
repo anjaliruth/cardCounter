@@ -3,7 +3,7 @@ import Card from "./Card";
 import { DrawPileContext } from "./App.js";
 export default function Shoe() {
   const [players, setPlayers] = useState(2);
-  const [hands, setHands] = useState([{}]);
+  const [hands, setHands] = useState([]);
   const [playing, setPlaying] = useState(false);
   const { drawPile, setDrawPile } = useContext(DrawPileContext);
   const [position, setPosition] = useState(null);
@@ -38,26 +38,20 @@ export default function Shoe() {
   //calculate remainder of draw pile
 
   function addtoRunningCount(card) {
-    let count = 0;
     let lowCards = [2, 3, 4, 5, 6];
     let highCards = [10, "J", "Q", "K", "A"];
-    console.log(runningCount, "count in addto Running Count before ");
+    console.log(runningCount, "running Count before ");
     if (lowCards.includes(card.value)) {
       console.log(card.value, "card.value low");
-      count = count + 1;
-      console.log(count, "count! low");
-      setRunningCount(count);
+      setRunningCount((prev) => prev + 1);
+      console.log(runningCount, "runningCount", card.value);
     }
-    if (highCards.includes(card.value)) {
+    else if (highCards.includes(card.value)) {
       console.log(card.value, "card.value high");
-      console.log(count, "count! high");
-      count = count - 1;
-      setRunningCount(count);
-    } else {
-      console.log(count, "count! neutral");
+      setRunningCount((prev) => prev - 1);
+      console.log(runningCount, "runningCount", card.value);
     }
-    // console.log(count, 'count! outside')
-    console.log(runningCount, "count in addto Running Countafter");
+    console.log(runningCount, "runningCount", card.value);
   }
 
   function newDeck() {
@@ -117,6 +111,7 @@ export default function Shoe() {
     let dealtHands = [...hands];
     let currentCard = updatedDrawPile.pop();
     dealtHands[position].push(currentCard);
+    addtoRunningCount(currentCard);
     setDrawPile(updatedDrawPile);
     setHands(dealtHands);
 
@@ -192,7 +187,7 @@ export default function Shoe() {
       //need to move this out
       return accumulator + currentValue.value;
     },
-    0);
+      0);
     if (isSoft && count > 21) {
       isSoft = false;
       console.log(isSoft, "isSoft");
@@ -271,7 +266,6 @@ export default function Shoe() {
   function startGame() {
     setPlaying(true);
     assignHands();
-    setPlaying(!playing);
     setPosition(0);
   }
   console.log(position, "general position");
