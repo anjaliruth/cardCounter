@@ -47,9 +47,14 @@ export default function Shoe() {
     let highCards = [10, "J", "Q", "K", "A"];
     if (lowCards.includes(card.value)) {
       setRunningCount((prev) => prev + 1);
+      console.log("added cardcount");
     } else if (highCards.includes(card.value)) {
       setRunningCount((prev) => prev - 1);
+      console.log("reduced cardcount");
+    } else {
+      console.log("nothing");
     }
+    console.log(runningCount, "runningCount");
   }
 
   function newDeck() {
@@ -171,10 +176,6 @@ export default function Shoe() {
   //this gives the dealer more cards if their second card doesnt cause their card amount to exceed 16
   useEffect(() => {
     if (playerCardCount[position] === undefined) return;
-    console.log(
-      playerCardCount[position],
-      "playerCardCound position outside 17 if"
-    );
     if (playerCardCount[position] < 17 && position === players) {
       let updatedDrawPile = [...drawPile];
       let dealtHands = [...hands];
@@ -182,10 +183,7 @@ export default function Shoe() {
       dealtHands[position].push(currentCard);
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
-      console.log(
-        playerCardCount[position],
-        "playerCardCount[position] inside 17 if"
-      );
+      addtoRunningCount(currentCard);
     }
 
     calculatePlayerCardCount(position);
@@ -256,15 +254,10 @@ export default function Shoe() {
     assignHands();
     setPosition(0);
   }
-
-  console.log(showCardCount, "showCardCount");
-  console.log(runningCount, "runningCount");
-  console.log(playerCardCount, "playerCardCount");
   return (
     <div>
-      <button onClick={startGame}> Start Round</button>
-
       <div className="displayArea">
+       {!playing && <button onClick={startGame}> Start Round</button>}
         {hands.map((hand, playerIndex) => (
           <div className="playArea">
             <div className="playerSection">
@@ -289,9 +282,9 @@ export default function Shoe() {
             </div>
           </div>
         ))}
+        {allowReset && <button onClick={startGame}>Replay</button>}
+        <button onClick={allowShowingCardCount}>Show Card Count</button>
       </div>
-      {allowReset && <button onClick={startGame}>Replay</button>}
-      <button onClick={allowShowingCardCount}>Show Card Count</button>
       {showCardCount && <h1 className="cardCount">{runningCount}</h1>}
     </div>
   );
