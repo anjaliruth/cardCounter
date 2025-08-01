@@ -41,7 +41,7 @@ export default function Shoe() {
     } else {
     }
   }
-    function shuffle(array) {
+  function shuffle(array) {
     for (let i = 0; i < array.length; i++) {
       const j = Math.floor(Math.random() * (i + 1));
       var temp = array[i];
@@ -74,7 +74,7 @@ export default function Shoe() {
     setupShoe();
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     if (isDealer) {
       calculatePlayerCardCount(position);
     }
@@ -88,6 +88,7 @@ export default function Shoe() {
       let dealtHands = [...hands];
       let currentCard = updatedDrawPile.pop();
       dealtHands[position].push(currentCard);
+      console.log(currentCard, 'currentCard')
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
       addtoRunningCount(currentCard);
@@ -99,13 +100,13 @@ export default function Shoe() {
   //calculates players card total
   function calculatePlayerCardCount(currPosition) {
     const currentCardCount = countTo21(currPosition);
-//places player total on the current index if player card total has already been counted previously (has already taken a card)
+    //places player total on the current index if player card total has already been counted previously (has already taken a card)
     if (playerCardCount.length === currPosition + 1) {
       let currCardCount = [...playerCardCount];
       currCardCount.splice(currPosition, 1, currentCardCount);
       setPlayerCardCount(currCardCount);
-    } 
-//adds player total to the next index if playercard total has nto been counted previously (fresh turn)
+    }
+    //adds player total to the next index if playercard total has nto been counted previously (fresh turn)
     else {
       setPlayerCardCount([...playerCardCount, currentCardCount]);
     }
@@ -125,7 +126,7 @@ export default function Shoe() {
     //moves position if player cardCount > 21
     let currentCardCount = calculatePlayerCardCount(position);
     let currPosition = position;
-    if (currentCardCount > 21) {
+    if (currentCardCount >= 21) {
       currPosition = position + 1;
       setPosition(currPosition);
     }
@@ -145,14 +146,8 @@ export default function Shoe() {
 
   function stay() {
     let currPosition = position;
-    let x = calculatePlayerCardCount(currPosition);
-    console.log(x, "x");
     currPosition = position + 1;
-
-    console.log(position, "position before");
     setPosition(currPosition);
-    console.log(position, "position +1");
-
     //dealers cards
     if (currPosition === players) {
       setIsDealer(true);
@@ -238,8 +233,12 @@ export default function Shoe() {
     setPlaying(true);
     assignHands();
     setPosition(0);
+    setPlayerCardCount([])
   }
 
+  console.log(position, 'position')
+  console.log(playerCardCount, 'playerCardCount')
+  console.log(drawPile, 'drawPile')
   return (
     <div>
       <div className="displayArea">
@@ -264,17 +263,10 @@ export default function Shoe() {
                   <Card value={card.value} suit={card.suit} />
                 ))}
               </div>
-              {playerIndex !== hands.length - 1 && playerIndex === position && (
+              {playerIndex !== hands.length - 1 && playerIndex === position &&(
                 <div>
-                  <button
-                    onClick={hitCards}
-                    disabled={position !== playerIndex}
-                  >
-                    Take Card
-                  </button>
-                  <button onClick={stay} disabled={position !== playerIndex}>
-                    Stay
-                  </button>
+                  <button onClick={hitCards}>Take Card</button>
+                  <button onClick={stay}>Stay</button>
                 </div>
               )}
             </div>
