@@ -16,3 +16,16 @@
 
 //Design 
 //get rid of cards if count is > 21
+
+  //## get all 52 x 6 card datadata✅
+  //store them in a state called Draw pile✅
+  //shuffle cards
+  //set the number of people
+  //draw cards
+
+  //remove cards from draw pile
+  //do count
+  //end of hand
+  //calculate remainder of draw pile
+
+  //calculates cardCoun
