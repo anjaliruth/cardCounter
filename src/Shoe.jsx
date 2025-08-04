@@ -88,7 +88,6 @@ export default function Shoe() {
       let dealtHands = [...hands];
       let currentCard = updatedDrawPile.pop();
       dealtHands[position].push(currentCard);
-      console.log(currentCard, 'currentCard')
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
       addtoRunningCount(currentCard);
@@ -113,15 +112,16 @@ export default function Shoe() {
     return currentCardCount;
   }
 
+  function drawCards() {}
+
   function hitCards() {
-    //gives player/dealer another card
     let updatedDrawPile = [...drawPile];
     let dealtHands = [...hands];
     let currentCard = updatedDrawPile.pop();
     dealtHands[position].push(currentCard);
-    addtoRunningCount(currentCard);
     setDrawPile(updatedDrawPile);
-    setHands(dealtHands);
+    setTimeout(()=> {setHands(dealtHands)}, 2000);
+    addtoRunningCount(currentCard);
 
     //moves position if player cardCount > 21
     let currentCardCount = calculatePlayerCardCount(position);
@@ -201,44 +201,46 @@ export default function Shoe() {
   }
 
   function assignHands() {
-    console.log(players, "players inn assignHands");
     let rounds = 2;
-    let order = [];
-    let dealtHands = [];
     let updatedDrawPile = [...drawPile];
-    for (let i = 0; i < rounds * players + 1; i++) {
-      if (updatedDrawPile.length === 0) break;
-      let currentCard = updatedDrawPile.pop();
-      addtoRunningCount(currentCard);
-      order.push(currentCard);
-    }
-    for (let j = 0; j < players + 1; j++) {
-      if (j === players) {
-        //dealers upcard
-        dealtHands.push([order[j]]);
-      } else {
-        dealtHands.push([order[j], order[j + players + 1]]);
-      }
-    }
-    setHands(dealtHands);
-    setDrawPile(updatedDrawPile);
-  }
+    let dealtHands = Array(players + 1)
+      .fill()
+      .map(() => []);
+    let totalCards = players * 2 + 1;
 
+    function dealCard(i) {
+      if (i >= totalCards || updatedDrawPile.length === 0) {
+        setHands(dealtHands);
+        setDrawPile(updatedDrawPile);
+        return;
+      }
+
+      const currentCard = updatedDrawPile.pop();
+      if (i < players * rounds) {
+        const playerIndex = i % players;
+        dealtHands[playerIndex].push(currentCard);
+      } else {
+        dealtHands[players].push(currentCard);
+      }
+
+      setHands([...dealtHands]);
+      setDrawPile([...updatedDrawPile]);
+      setTimeout(()=> dealCard(i+1), 800);
+      addtoRunningCount(currentCard);
+    }
+    dealCard(0);
+  }
   function allowShowingCardCount() {
     setShowCardCount((prev) => !prev);
   }
-
   function startGame() {
     setHands([]);
     setPlaying(true);
     assignHands();
     setPosition(0);
-    setPlayerCardCount([])
+    setPlayerCardCount([]);
   }
 
-  console.log(position, 'position')
-  console.log(playerCardCount, 'playerCardCount')
-  console.log(drawPile, 'drawPile')
   return (
     <div>
       <div className="displayArea">
@@ -255,23 +257,23 @@ export default function Shoe() {
         )}
 
         {!playing && <button onClick={startGame}> Start Round</button>}
-        {hands.map((hand, playerIndex) => (
-          <div className="playArea">
+        <div className="playArea">
+          {hands.map((hand, playerIndex) => (
             <div className="playerSection">
               <div className="playerCards">
                 {hand.map((card, cardIndex) => (
                   <Card value={card.value} suit={card.suit} />
                 ))}
               </div>
-              {playerIndex !== hands.length - 1 && playerIndex === position &&(
+              {playerIndex !== hands.length - 1 && playerIndex === position && (
                 <div>
                   <button onClick={hitCards}>Take Card</button>
                   <button onClick={stay}>Stay</button>
                 </div>
               )}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
         {allowReset && <button onClick={startGame}>Replay</button>}
         <button onClick={allowShowingCardCount}>Show Card Count</button>
       </div>
