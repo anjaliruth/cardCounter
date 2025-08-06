@@ -29,3 +29,10 @@
   //calculate remainder of draw pile
 
   //calculates cardCoun
+
+
+  THINGS WRONG: 
+
+  // playerCardCount is going insane and doesnt count 0 index x 
+  dealiers card is WRONG
+  dealiers card isnt calculated after first history

@@ -145,6 +145,7 @@ export default function Shoe() {
   }
 
   function stay() {
+    calculatePlayerCardCount(position)
     let currPosition = position;
     currPosition = position + 1;
     setPosition(currPosition);
@@ -216,8 +217,8 @@ export default function Shoe() {
       }
 
       const currentCard = updatedDrawPile.pop();
-      if (i < players * rounds) {
-        const playerIndex = i % players;
+      if (i <= players * rounds) {
+        const playerIndex = i % (players+1);
         dealtHands[playerIndex].push(currentCard);
       } else {
         dealtHands[players].push(currentCard);
@@ -241,6 +242,8 @@ export default function Shoe() {
     setPlayerCardCount([]);
   }
 
+
+  console.log(playerCardCount, 'playerCardCount')
   return (
     <div>
       <div className="displayArea">
