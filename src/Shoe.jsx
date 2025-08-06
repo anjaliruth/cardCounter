@@ -75,26 +75,35 @@ export default function Shoe() {
   }, []);
 
   useEffect(() => {
+    if (!hands[players] || hands[players].length === 0) return;
     if (isDealer) {
-      calculatePlayerCardCount(position);
+      console.log("isDealer small");
+      let dealerCardCount = calculatePlayerCardCount(players);
+      console.log(playerCardCount[players], "playerCardCount[players]");
+      console.log(dealerCardCount, "dealerCardCount");
+      if (dealerCardCount < 17) {
+        console.log("dealer hands lower");
+        let updatedDrawPile = [...drawPile];
+        let dealtHands = [...hands];
+        let currentCard = updatedDrawPile.pop();
+        dealtHands[position].push(currentCard);
+        setDrawPile(updatedDrawPile);
+        setHands(dealtHands);
+        addtoRunningCount(currentCard);
+        calculatePlayerCardCount(players);
+      }
+      if (dealerCardCount >= 17) {
+        setAllowReset(true);
+        setPlaying(false);
+      }
     }
-  }, [isDealer]);
+  }, [hands, isDealer]);
 
-  //this gives the dealer more cards if their second card doesnt cause their card amount to exceed 16
   useEffect(() => {
-    if (playerCardCount[position] === undefined) return;
-    if (playerCardCount[position] < 17 && position === players) {
-      let updatedDrawPile = [...drawPile];
-      let dealtHands = [...hands];
-      let currentCard = updatedDrawPile.pop();
-      dealtHands[position].push(currentCard);
-      setDrawPile(updatedDrawPile);
-      setHands(dealtHands);
-      addtoRunningCount(currentCard);
+    if (playing) {
+      assignHands();
     }
-
-    calculatePlayerCardCount(position);
-  }, [playerCardCount[position]]);
+  }, [playing]);
 
   //calculates players card total
   function calculatePlayerCardCount(currPosition) {
@@ -120,7 +129,9 @@ export default function Shoe() {
     let currentCard = updatedDrawPile.pop();
     dealtHands[position].push(currentCard);
     setDrawPile(updatedDrawPile);
-    setTimeout(()=> {setHands(dealtHands)}, 2000);
+    setTimeout(() => {
+      setHands(dealtHands);
+    }, 2000);
     addtoRunningCount(currentCard);
 
     //moves position if player cardCount > 21
@@ -136,31 +147,35 @@ export default function Shoe() {
       let updatedDrawPile = [...drawPile];
       let dealtHands = [...hands];
       let currentCard = updatedDrawPile.pop();
-      dealtHands[position + 1].push(currentCard);
+      dealtHands[players].push(currentCard);
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
+      calculatePlayerCardCount(players);
       addtoRunningCount(currentCard);
-      setAllowReset(true);
+      // setAllowReset(true);
     }
   }
 
   function stay() {
-    calculatePlayerCardCount(position)
     let currPosition = position;
+    calculatePlayerCardCount(currPosition);
     currPosition = position + 1;
     setPosition(currPosition);
     //dealers cards
     if (currPosition === players) {
+      console.log("in stay");
+
       setIsDealer(true);
       let updatedDrawPile = [...drawPile];
       let dealtHands = [...hands];
       let currentCard = updatedDrawPile.pop();
-      dealtHands[position + 1].push(currentCard);
+      dealtHands[players].push(currentCard);
       setDrawPile(updatedDrawPile);
       setHands(dealtHands);
+      // calculatePlayerCardCount(players)
       addtoRunningCount(currentCard);
       console.log(position, "positionx");
-      setAllowReset(true);
+      // setAllowReset(true);
     }
 
     const currentCardCount = countTo21(currPosition);
@@ -213,20 +228,20 @@ export default function Shoe() {
       if (i >= totalCards || updatedDrawPile.length === 0) {
         setHands(dealtHands);
         setDrawPile(updatedDrawPile);
+        console.log(i, "i >= in i");
         return;
       }
 
       const currentCard = updatedDrawPile.pop();
-      if (i <= players * rounds) {
-        const playerIndex = i % (players+1);
-        dealtHands[playerIndex].push(currentCard);
-      } else {
-        dealtHands[players].push(currentCard);
-      }
+      const playerIndex = i % (players + 1);
+      console.log(dealtHands, "dealtHands before");
+      dealtHands[playerIndex].push(currentCard);
+      console.log(dealtHands, "dealtHands after");
 
       setHands([...dealtHands]);
+      console.log(dealtHands, "dealtHands after setHands");
       setDrawPile([...updatedDrawPile]);
-      setTimeout(()=> dealCard(i+1), 800);
+      setTimeout(() => dealCard(i + 1), 800);
       addtoRunningCount(currentCard);
     }
     dealCard(0);
@@ -236,14 +251,11 @@ export default function Shoe() {
   }
   function startGame() {
     setHands([]);
-    setPlaying(true);
-    assignHands();
-    setPosition(0);
     setPlayerCardCount([]);
+    setPosition(0);
+    setPlaying(true);
   }
 
-
-  console.log(playerCardCount, 'playerCardCount')
   return (
     <div>
       <div className="displayArea">
