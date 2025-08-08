@@ -69,6 +69,23 @@ export default function Shoe() {
     }
     setDrawPile(shuffle(shoePile));
   }
+  function dealersCard() {
+    let updatedDrawPile = [...drawPile];
+    let dealtHands = [...hands];
+    let currentCard = updatedDrawPile.pop();
+    dealtHands[players].push(currentCard);
+    setDrawPile(updatedDrawPile);
+    setHands(dealtHands);
+  }
+
+  function drawHitCard(){
+     let updatedDrawPile = [...drawPile];
+    let dealtHands = [...hands];
+    let currentCard = updatedDrawPile.pop();
+    dealtHands[position].push(currentCard);
+    setDrawPile(updatedDrawPile);
+    setHands(dealtHands);
+  }
 
   useEffect(() => {
     setupShoe();
@@ -85,13 +102,16 @@ export default function Shoe() {
         let currentCard = updatedDrawPile.pop();
         dealtHands[position].push(currentCard);
         setDrawPile(updatedDrawPile);
-        setHands(dealtHands);
+        setTimeout(() => {
+          dealersCard();
+        }, 800);
         addtoRunningCount(currentCard);
         calculatePlayerCardCount(players);
       }
       if (dealerCardCount >= 17) {
         setAllowReset(true);
         setPlaying(false);
+        setIsDealer(false);
       }
     }
   }, [hands, isDealer]);
@@ -118,8 +138,6 @@ export default function Shoe() {
     return currentCardCount;
   }
 
-  function drawCards() {}
-
   function hitCards() {
     let updatedDrawPile = [...drawPile];
     let dealtHands = [...hands];
@@ -127,8 +145,8 @@ export default function Shoe() {
     dealtHands[position].push(currentCard);
     setDrawPile(updatedDrawPile);
     setTimeout(() => {
-      setHands(dealtHands);
-    }, 2000);
+      drawHitCard();
+    }, 800);
     addtoRunningCount(currentCard);
 
     //moves position if player cardCount > 21
@@ -141,15 +159,6 @@ export default function Shoe() {
     //dealers cards
     if (currPosition === players) {
       setIsDealer(true);
-      let updatedDrawPile = [...drawPile];
-      let dealtHands = [...hands];
-      let currentCard = updatedDrawPile.pop();
-      dealtHands[players].push(currentCard);
-      setDrawPile(updatedDrawPile);
-      setHands(dealtHands);
-      calculatePlayerCardCount(players);
-      addtoRunningCount(currentCard);
-      // setAllowReset(true);
     }
   }
 
@@ -161,24 +170,7 @@ export default function Shoe() {
     //dealers cards
     if (currPosition === players) {
       console.log("in stay");
-
       setIsDealer(true);
-      let updatedDrawPile = [...drawPile];
-      let dealtHands = [...hands];
-      let currentCard = updatedDrawPile.pop();
-      dealtHands[players].push(currentCard);
-      setDrawPile(updatedDrawPile);
-      setHands(dealtHands);
-      // calculatePlayerCardCount(players)
-      addtoRunningCount(currentCard);
-      console.log(position, "positionx");
-      // setAllowReset(true);
-    }
-
-    const currentCardCount = countTo21(currPosition);
-    if (currentCardCount >= 21) {
-      let currPosition = position + 1;
-      setPosition(currPosition);
     }
   }
 
@@ -225,26 +217,19 @@ export default function Shoe() {
       if (i >= totalCards || updatedDrawPile.length === 0) {
         setHands(dealtHands);
         setDrawPile(updatedDrawPile);
-        console.log(i, "i >= in i");
         return;
       }
 
       const currentCard = updatedDrawPile.pop();
       const playerIndex = i % (players + 1);
-      console.log(i, 'i before dealtHands')
-      console.log(playerIndex, 'playerIndex')
-      console.log(dealtHands, "dealtHands before");
       dealtHands[playerIndex].push(currentCard);
-      console.log(dealtHands, "dealtHands after");
 
       setHands([...dealtHands]);
-      console.log(dealtHands, "dealtHands after setHands");
       setDrawPile([...updatedDrawPile]);
       setTimeout(() => dealCard(i + 1), 800);
       addtoRunningCount(currentCard);
     }
     dealCard(0);
-    console.log(dealtHands, 'dealtHands adter dealCard')
   }
   function allowShowingCardCount() {
     setShowCardCount((prev) => !prev);
@@ -256,6 +241,8 @@ export default function Shoe() {
     setPlaying(true);
   }
 
+  console.log(position, 'position')
+  console.log(isDealer, 'isDealer')
   return (
     <div>
       <div className="displayArea">
