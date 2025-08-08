@@ -10,4 +10,4 @@ export function numbers() {
 export let numbersOutput = numbers();
 export let numbersAndPictures = ["A", ...numbersOutput, "J", "Q", "K"];
 export let shapes = ["♣️", "❤️", "♠️", "♦️"];
-export let shoe = 6;
+export let shoe = 12;

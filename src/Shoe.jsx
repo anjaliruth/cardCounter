@@ -77,10 +77,7 @@ export default function Shoe() {
   useEffect(() => {
     if (!hands[players] || hands[players].length === 0) return;
     if (isDealer) {
-      console.log("isDealer small");
       let dealerCardCount = calculatePlayerCardCount(players);
-      console.log(playerCardCount[players], "playerCardCount[players]");
-      console.log(dealerCardCount, "dealerCardCount");
       if (dealerCardCount < 17) {
         console.log("dealer hands lower");
         let updatedDrawPile = [...drawPile];
@@ -103,7 +100,7 @@ export default function Shoe() {
     if (playing) {
       assignHands();
     }
-  }, [playing]);
+  }, [playing, players]);
 
   //calculates players card total
   function calculatePlayerCardCount(currPosition) {
@@ -234,6 +231,8 @@ export default function Shoe() {
 
       const currentCard = updatedDrawPile.pop();
       const playerIndex = i % (players + 1);
+      console.log(i, 'i before dealtHands')
+      console.log(playerIndex, 'playerIndex')
       console.log(dealtHands, "dealtHands before");
       dealtHands[playerIndex].push(currentCard);
       console.log(dealtHands, "dealtHands after");
@@ -245,6 +244,7 @@ export default function Shoe() {
       addtoRunningCount(currentCard);
     }
     dealCard(0);
+    console.log(dealtHands, 'dealtHands adter dealCard')
   }
   function allowShowingCardCount() {
     setShowCardCount((prev) => !prev);
