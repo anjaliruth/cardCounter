@@ -4,18 +4,22 @@
 
 .displayArea{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: pink
+  background-color: #1A4861
 }
 
 .playArea{
 display: flex;
 flex-direction: row;
 justify-content: center;
-background-color: green;
-  height: 40vh;
+align-items: center;
+background-color: #2C5327;
+border-radius: 2px;
+  height: 60vh;
+  min-width:80vh;
 }
 
 .playerSection{

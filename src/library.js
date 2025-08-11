@@ -11,3 +11,5 @@ export let numbersOutput = numbers();
 export let numbersAndPictures = ["A", ...numbersOutput, "J", "Q", "K"];
 export let shapes = ["♣️", "❤️", "♠️", "♦️"];
 export let shoe = 12;
+export let lowCards = [2, 3, 4, 5, 6];
+export let highCards = [10, "J", "Q", "K", "A"];

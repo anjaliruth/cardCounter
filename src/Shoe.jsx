@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Card from "./Card";
 import { DrawPileContext } from "./App.js";
-import { shoe, numbersAndPictures, shapes, isPicture } from "./library.js";
+import { shoe, numbersAndPictures, shapes, isPicture, lowCards, highCards } from "./library.js";
 export default function Shoe() {
   const [players, setPlayers] = useState(2);
   const [hands, setHands] = useState([]);
@@ -32,8 +32,6 @@ export default function Shoe() {
   }
 
   function addtoRunningCount(card) {
-    let lowCards = [2, 3, 4, 5, 6];
-    let highCards = [10, "J", "Q", "K", "A"];
     if (lowCards.includes(card.value)) {
       setRunningCount((prev) => prev + 1);
     } else if (highCards.includes(card.value)) {
@@ -187,7 +185,6 @@ export default function Shoe() {
   }
 
   function assignHands() {
-    let rounds = 2;
     let updatedDrawPile = [...drawPile];
     let dealtHands = Array(players + 1)
       .fill()
@@ -222,11 +219,10 @@ export default function Shoe() {
     setPlaying(true);
   }
 
-  console.log(position, "position");
-  console.log(isDealer, "isDealer");
   return (
-    <div>
-      <div className="displayArea">
+    <div className="displayArea">
+        <div className="playArea">
+      <div className="playerCount">
         {!playing && (
           <div>
             <h2>How many players? (1-9)</h2>
@@ -240,7 +236,6 @@ export default function Shoe() {
         )}
 
         {!playing && <button onClick={startGame}> Start Round</button>}
-        <div className="playArea">
           {hands.map((hand, playerIndex) => (
             <div className="playerSection">
               <div className="playerCards">
@@ -258,9 +253,9 @@ export default function Shoe() {
           ))}
         </div>
         {allowReset && <button onClick={startGame}>Replay</button>}
-        <button onClick={allowShowingCardCount}>Show Card Count</button>
-      </div>
+       { playing && <button onClick={allowShowingCardCount}>Show Card Count</button>}
       {showCardCount && <h1 className="cardCount">{runningCount}</h1>}
+      </div>
     </div>
   );
 }
