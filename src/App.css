@@ -25,18 +25,30 @@ border-radius: 2px;
 
 
 .noPlayer{
-  /* background-color: pink; */
+display: flex;
+justify-content: center;
 }
 
-.noPlayerInput{
-  text-align: center;
-  border-radius: 10px;
-  border: none;
+.noPlayerButtonBox{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.noPlayerButton{
+color: #E6D8A2;
+font-weight: bold;
+font-size: larger;
+background-color: #2C5327;
+border: 1.5px solid #E6D8A2;
+text-align: center;
+border-radius: 5px;
+min-width: 40px;
+min-height: 40px;
 }
 
 .noPlayerHeading, .noPlayerSubheading{
   margin: none;
-  color: white;
+  color: #E6D8A2;
 }
 .infoSection{
   display: flex;
@@ -47,14 +59,29 @@ border-radius: 2px;
   gap: 20px;
   padding: 20px;
 }
+.blank{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+}
 
+
+.startButtonBox{
+  display: flex;
+  justify-content: center;
+  /* background-color: antiquewhite; */
+}
 .startButton{
-  background-color: blanchedalmond;
+  background-color: #E6D8A2;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
 }
 
 .playerSection{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   margin: 20px;
   background-color: darkblue;
