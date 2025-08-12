@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import Card from "./Card";
 import { DrawPileContext } from "./App.js";
-import { shoe, numbersAndPictures, shapes, isPicture, lowCards, highCards } from "./library.js";
+import {
+  shoe,
+  numbersAndPictures,
+  shapes,
+  isPicture,
+  lowCards,
+  highCards,
+} from "./library.js";
 export default function Shoe() {
-  const [players, setPlayers] = useState(2);
+  const [players, setPlayers] = useState(0);
   const [hands, setHands] = useState([]);
   const [playing, setPlaying] = useState(false);
   const { drawPile, setDrawPile } = useContext(DrawPileContext);
@@ -27,8 +34,10 @@ export default function Shoe() {
 
   //calculates cardCount
 
-  function handlePlayerAmount(e) {
-    setPlayers(Number(e.target.value));
+  function handlePlayerAmount(e, number) {
+    console.log(e.target.value, 'e.target.value')
+    setPlayers(number);
+    console.log(players, 'players in handlePlayerAmount')
   }
 
   function addtoRunningCount(card) {
@@ -91,14 +100,14 @@ export default function Shoe() {
           const currentCard = drawHitCard(players);
           addtoRunningCount(currentCard);
         }, 800);
-          calculatePlayerCardCount(players);
-        }
-        if (dealerCardCount >= 17) {
-          setAllowReset(true);
-          setPlaying(false);
-          setIsDealer(false);
-        }
+        calculatePlayerCardCount(players);
       }
+      if (dealerCardCount >= 17) {
+        setAllowReset(true);
+        setPlaying(false);
+        setIsDealer(false);
+      }
+    }
   }, [hands, isDealer]);
 
   useEffect(() => {
@@ -218,24 +227,42 @@ export default function Shoe() {
     setPosition(0);
     setPlaying(true);
   }
+  let playerAmount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
     <div className="displayArea">
-        <div className="playArea">
-      <div className="playerCount">
-        {!playing && (
-          <div>
-            <h2>How many players? (1-9)</h2>
-            <input
-              placeholder="no. of players"
-              type="number"
-              onChange={(e) => handlePlayerAmount(e)}
-              value={players}
-            />
-          </div>
-        )}
+      <div className="playArea">
+        <div className="infoSection">
+          <div className="noPlayer">
+            {!playing && (
+              <div>
+                <h2 className="noPlayerHeading">How many players?</h2>
+                <h3 className="noPlayerSubheading">(1-9 players)</h3>
 
-        {!playing && <button onClick={startGame}> Start Round</button>}
+                {playerAmount.map((number) => (
+                  <button
+                    onClick={(e) => handlePlayerAmount(e, number)}
+                    value={players}
+                    className="noPlayerInput"
+                  >
+                    {number}
+                  </button>
+                ))}
+                {/* <input
+                  placeholder="no. of players"
+                  type="number"
+                  onChange={(e) => handlePlayerAmount(e)}
+                  value={players}
+                  className="noPlayerInput"
+                /> */}
+              </div>
+            )}
+          </div>
+          <div className="startButton">
+            {!playing && players && (
+              <button onClick={startGame}> Start Round</button>
+            ) }
+          </div>
           {hands.map((hand, playerIndex) => (
             <div className="playerSection">
               <div className="playerCards">
@@ -253,8 +280,10 @@ export default function Shoe() {
           ))}
         </div>
         {allowReset && <button onClick={startGame}>Replay</button>}
-       { playing && <button onClick={allowShowingCardCount}>Show Card Count</button>}
-      {showCardCount && <h1 className="cardCount">{runningCount}</h1>}
+        {playing && (
+          <button onClick={allowShowingCardCount}>Show Card Count</button>
+        )}
+        {showCardCount && <h1 className="cardCount">{runningCount}</h1>}
       </div>
     </div>
   );

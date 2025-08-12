@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 .displayArea{
   display: flex;
   flex-direction: column;
@@ -20,6 +21,35 @@ background-color: #2C5327;
 border-radius: 2px;
   height: 60vh;
   min-width:80vh;
+}
+
+
+.noPlayer{
+  /* background-color: pink; */
+}
+
+.noPlayerInput{
+  text-align: center;
+  border-radius: 10px;
+  border: none;
+}
+
+.noPlayerHeading, .noPlayerSubheading{
+  margin: none;
+  color: white;
+}
+.infoSection{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: blue; */
+  height: 30vh;
+  gap: 20px;
+  padding: 20px;
+}
+
+.startButton{
+  background-color: blanchedalmond;
 }
 
 .playerSection{
