@@ -217,6 +217,7 @@ export default function Shoe() {
       addtoRunningCount(currentCard);
     }
     dealCard(0);
+
   }
   function allowShowingCardCount() {
     setShowCardCount((prev) => !prev);
@@ -231,35 +232,34 @@ export default function Shoe() {
 
   return (
     <div className="displayArea">
-      <div className="playArea">
-        <div className="infoSection">
-          <div className="noPlayer">
-            {!playing && (
-              <div className="blank">
-                <h2 className="noPlayerHeading">How many players?</h2>
-                <h3 className="noPlayerSubheading">(1-9 players)</h3>
-                <div className="noPlayerButtonBox">
-                  {playerAmount.map((number) => (
-                    <button
-                      onClick={(e) => handlePlayerAmount(e, number)}
-                      value={number}
-                      className="noPlayerButton"
-                    >
-                      {number}
-                    </button>
-                  ))}
-                </div>
-                <div className="startButtonBox">
+      <div className="infoSection">
+        <div className="noPlayer">
+          {!playing && (
+            <div className="blank">
+              <h2 className="noPlayerHeading">How many players?</h2>
+              <h3 className="noPlayerSubheading">(1-9 players)</h3>
+              <div className="noPlayerButtonBox">
+                {playerAmount.map((number) => (
+                  <button
+                    onClick={(e) => handlePlayerAmount(e, number)}
+                    value={number}
+                    className="noPlayerButton"
+                  >
+                    {number}
+                  </button>
+                ))}
+              </div>
+              <div className="startButtonBox">
                 <div className="startButton">
                   {!playing && players && (
                     <button onClick={startGame}> Start Round</button>
                   )}
                 </div>
-                </div>
               </div>
-            )}
-          </div>
-
+            </div>
+          )}
+        </div>
+        <div className="playArea">
           {hands.map((hand, playerIndex) => (
             <div className="playerSection">
               <div className="playerCards">
@@ -268,7 +268,7 @@ export default function Shoe() {
                 ))}
               </div>
               {playerIndex !== hands.length - 1 && playerIndex === position && (
-                <div>
+                <div className="playerActions">
                   <button onClick={hitCards}>Take Card</button>
                   <button onClick={stay}>Stay</button>
                 </div>
