@@ -217,7 +217,6 @@ export default function Shoe() {
       addtoRunningCount(currentCard);
     }
     dealCard(0);
-
   }
   function allowShowingCardCount() {
     setShowCardCount((prev) => !prev);
@@ -243,39 +242,41 @@ export default function Shoe() {
                   <button
                     onClick={(e) => handlePlayerAmount(e, number)}
                     value={number}
+                    disabled={players}
                     className="noPlayerButton"
                   >
                     {number}
                   </button>
                 ))}
               </div>
-              <div className="startButtonBox">
-                <div className="startButton">
-                  {!playing && players && (
-                    <button onClick={startGame}> Start Round</button>
-                  )}
+              {!playing && players ? (
+                <div className="startButtonBox">
+                    <button onClick={startGame} className="startButton"> Start Round</button>
                 </div>
-              </div>
+              ) : null}
             </div>
           )}
         </div>
-        <div className="playArea">
-          {hands.map((hand, playerIndex) => (
-            <div className="playerSection">
-              <div className="playerCards">
-                {hand.map((card, cardIndex) => (
-                  <Card value={card.value} suit={card.suit} />
-                ))}
-              </div>
-              {playerIndex !== hands.length - 1 && playerIndex === position && (
-                <div className="playerActions">
-                  <button onClick={hitCards}>Take Card</button>
-                  <button onClick={stay}>Stay</button>
+        { hands.length > 0 ? 
+          <div className="playArea">
+            {hands.map((hand, playerIndex) => (
+              <div className="playerSection">
+                <div className="playerCards">
+                  {hand.map((card, cardIndex) => (
+                    <Card value={card.value} suit={card.suit} />
+                  ))}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
+                {playerIndex !== hands.length - 1 &&
+                  playerIndex === position && (
+                    <div className="playerActions">
+                      <button onClick={hitCards}>Take Card</button>
+                      <button onClick={stay}>Stay</button>
+                    </div>
+                  )}
+              </div>
+            ))}
+          </div> : null
+        }
         {allowReset && <button onClick={startGame}>Replay</button>}
         {playing && (
           <button onClick={allowShowingCardCount}>Show Card Count</button>

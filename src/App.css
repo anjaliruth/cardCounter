@@ -1,6 +1,11 @@
 .App {
   text-align: center;
 }
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
+
+body {
+  font-family: 'Cinzel Decorative', serif;
+}
 
 
 .displayArea{
@@ -79,8 +84,12 @@ min-height: 40px;
 }
 .startButton{
   background-color: #E6D8A2;
-  width: 100px;
-  border: none;
+  border: 3px solid #2C5327;
+  color:#2C5327;
+  font-weight: bold;
+  font-size:20px;
+  min-width: 100px;
+  padding: 10px 20px;
   border-radius: 5px;
 }
 
