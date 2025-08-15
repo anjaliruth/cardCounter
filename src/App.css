@@ -1,66 +1,65 @@
 .App {
   text-align: center;
 }
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap");
 
 body {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: "Cinzel Decorative", serif;
 }
 
-
-.displayArea{
+.displayArea {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #1A4861
+  background-color: #1a4861;
 }
 
-.playArea{
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-background-color: #2C5327;
-border-radius: 2px;
-  height: 60vh;
-  min-width:80vh;
+.playArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #2c5327;
+  border-radius: 2px;
+  min-height: 60vh;
+  min-width: 80vh;
 }
 
-.playerSection{
+.playerSection {
   display: flex;
   flex-direction: row;
 }
 
-
-.noPlayer{
-display: flex;
-justify-content: center;
+.noPlayer {
+  display: flex;
+  justify-content: center;
 }
 
-.noPlayerButtonBox{
+.noPlayerButtonBox {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
-.noPlayerButton{
-color: #E6D8A2;
-font-weight: bold;
-font-size: larger;
-background-color: #2C5327;
-border: 1.5px solid #E6D8A2;
-text-align: center;
-border-radius: 5px;
-min-width: 40px;
-min-height: 40px;
+.noPlayerButton {
+  color: #e6d8a2;
+  font-weight: bold;
+  font-size: larger;
+  background-color: #2c5327;
+  border: 1.5px solid #e6d8a2;
+  text-align: center;
+  border-radius: 5px;
+  min-width: 40px;
+  min-height: 40px;
 }
 
-.noPlayerHeading, .noPlayerSubheading{
+.noPlayerHeading,
+.noPlayerSubheading {
   margin: none;
-  color: #E6D8A2;
+  color: #e6d8a2;
 }
-.infoSection{
+.infoSection {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,36 +68,36 @@ min-height: 40px;
   gap: 20px;
   padding: 20px;
 }
-.blank{
+.blank {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 40px;
 }
 
-
-.startButtonBox{
+.startButtonBox {
   display: flex;
   justify-content: center;
   /* background-color: antiquewhite; */
 }
-.startButton{
-  background-color: #E6D8A2;
-  border: 3px solid #2C5327;
-  color:#2C5327;
+.startButton {
+  background-color: #e6d8a2;
+  border: 3px solid #2c5327;
+  color: #2c5327;
   font-weight: bold;
-  font-size:20px;
+  font-size: 20px;
   min-width: 100px;
   padding: 10px 20px;
   border-radius: 5px;
 }
 
-.playerSection{
+.playerSection {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   margin: 20px;
-  background-color: darkblue;
+  /* background-color: darkblue; */
+  box-shadow: 20px;
 }
 
 .Card {
@@ -108,9 +107,27 @@ min-height: 40px;
   transition: 0.3s;
   width: 100px;
   height: 150px;
-
 }
 
-.cardCount{
-  background-color: blue;
+.cardCountBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+}
+.cardCountButton {
+  background-color: #e6d8a2;
+  color: #2c5327;
+  min-width: 80px;
+  border: 3px solid #2c5327;
+  border-radius: 5px;
+  min-width: 80px;
+  font-size: 20px;
+}
+
+.cardCount {
+  background-color:#2c5327;
+  color:  #e6d8a2;  
+
+  font-weight: bold;
 }

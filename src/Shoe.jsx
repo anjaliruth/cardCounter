@@ -227,7 +227,7 @@ export default function Shoe() {
     setPosition(0);
     setPlaying(true);
   }
-  let playerAmount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  let playerAmount = [1, 2, 3, 4, 5, 6];
 
   return (
     <div className="displayArea">
@@ -236,7 +236,7 @@ export default function Shoe() {
           {!playing && (
             <div className="blank">
               <h2 className="noPlayerHeading">How many players?</h2>
-              <h3 className="noPlayerSubheading">(1-9 players)</h3>
+              <h3 className="noPlayerSubheading">(1-6 players)</h3>
               <div className="noPlayerButtonBox">
                 {playerAmount.map((number) => (
                   <button
@@ -251,13 +251,16 @@ export default function Shoe() {
               </div>
               {!playing && players ? (
                 <div className="startButtonBox">
-                    <button onClick={startGame} className="startButton"> Start Round</button>
+                  <button onClick={startGame} className="startButton">
+                    {" "}
+                    Start Round
+                  </button>
                 </div>
               ) : null}
             </div>
           )}
         </div>
-        { hands.length > 0 ? 
+        {hands.length > 0 ? (
           <div className="playArea">
             {hands.map((hand, playerIndex) => (
               <div className="playerSection">
@@ -275,13 +278,17 @@ export default function Shoe() {
                   )}
               </div>
             ))}
-          </div> : null
-        }
+          </div>
+        ) : null}
         {allowReset && <button onClick={startGame}>Replay</button>}
-        {playing && (
-          <button onClick={allowShowingCardCount}>Show Card Count</button>
-        )}
-        {showCardCount && <h1 className="cardCount">{runningCount}</h1>}
+        <div className="cardCountBox">
+          {playing && (
+            <button  className="cardCountButton" onClick={allowShowingCardCount} >
+              {showCardCount ? "Hide Card Count" : "Show Card Count"}
+            </button>
+          )}
+          {showCardCount && <h1 className="cardCount">{runningCount}</h1>}
+        </div>
       </div>
     </div>
   );
