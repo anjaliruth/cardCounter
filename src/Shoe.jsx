@@ -261,29 +261,37 @@ export default function Shoe() {
           )}
         </div>
         {hands.length > 0 ? (
-          <div className="playArea">
-            {hands.map((hand, playerIndex) => (
-              <div className="playerSection">
-                <div className="playerCards">
-                  {hand.map((card, cardIndex) => (
-                    <Card value={card.value} suit={card.suit} />
-                  ))}
+          <div className="playAreaContainer">
+            <div className="dealerSection">
+              {hands[players]?.map((card, cardIndex) => (
+                <Card key={cardIndex} value={card.value} suit={card.suit} />
+              ))}
+            </div>
+
+            <div className="playArea">
+              {Array.from({ length: players }).map((_, playerIndex) => (
+                <div className="playerSection">
+                  <div className="playerCards">
+                    {hands[playerIndex]?.map((card, cardIndex) => (
+                      <Card value={card.value} suit={card.suit} />
+                    ))}
+                  </div>
+                  {playerIndex !== hands.length - 1 &&
+                    playerIndex === position && (
+                      <div className="playerActions">
+                        <button onClick={hitCards}>Take Card</button>
+                        <button onClick={stay}>Stay</button>
+                      </div>
+                    )}
                 </div>
-                {playerIndex !== hands.length - 1 &&
-                  playerIndex === position && (
-                    <div className="playerActions">
-                      <button onClick={hitCards}>Take Card</button>
-                      <button onClick={stay}>Stay</button>
-                    </div>
-                  )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         ) : null}
         {allowReset && <button onClick={startGame}>Replay</button>}
         <div className="cardCountBox">
           {playing && (
-            <button  className="cardCountButton" onClick={allowShowingCardCount} >
+            <button className="cardCountButton" onClick={allowShowingCardCount}>
               {showCardCount ? "Hide Card Count" : "Show Card Count"}
             </button>
           )}

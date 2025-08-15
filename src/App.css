@@ -16,11 +16,23 @@ body {
   background-color: #1a4861;
 }
 
+
+.playAreaContainer{
+  background-color: aqua;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dealerSection{
+  background-color: #e6d8a2;
+  width: 200px;
+  align-items: center;
+}
 .playArea {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  align-items: flex-start;
   background-color: #2c5327;
   border-radius: 2px;
   min-height: 60vh;
@@ -30,6 +42,9 @@ body {
 .playerSection {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  min-width: 120px;
+  background-color: #e6d8a2;
 }
 
 .noPlayer {
