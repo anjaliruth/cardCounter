@@ -16,17 +16,24 @@ body {
   background-color: #1a4861;
 }
 
-
-.playAreaContainer{
-  background-color: aqua;
+.playAreaContainer {
+  display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  background-color: pink;
+  gap: 20px;
 }
 
-.dealerSection{
-  background-color: #e6d8a2;
+.noPlayerButton:hover, .cardActionButton:hover {
+  transition-delay: 0.1s;
+  transform: scale(1.5) perspective(1px);
+  background-color: #519948;
+}
+.dealerSection {
   width: 200px;
-  align-items: center;
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
 }
 .playArea {
   display: flex;
@@ -44,7 +51,7 @@ body {
   flex-direction: row;
   align-items: center;
   min-width: 120px;
-  background-color: #e6d8a2;
+  gap: 20px;
 }
 
 .noPlayer {
@@ -111,8 +118,17 @@ body {
   flex-direction: column;
   align-items: center;
   margin: 20px;
-  /* background-color: darkblue; */
   box-shadow: 20px;
+}
+
+.playerActions {
+  display: flex;
+  gap: 10px;
+}
+.cardActionButton {
+  background-color: #2c5327;
+  border: 2px solid #e6d8a2;
+  border-radius: 5px;
 }
 
 .Card {
@@ -129,6 +145,7 @@ body {
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
+  min-height: 50px;
 }
 .cardCountButton {
   background-color: #e6d8a2;
@@ -141,8 +158,8 @@ body {
 }
 
 .cardCount {
-  background-color:#2c5327;
-  color:  #e6d8a2;  
+  background-color: #2c5327;
+  color: #e6d8a2;
 
   font-weight: bold;
 }

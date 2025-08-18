@@ -16,6 +16,7 @@ export default function Shoe() {
   const { drawPile, setDrawPile } = useContext(DrawPileContext);
   const [position, setPosition] = useState(0);
   const [isDealer, setIsDealer] = useState(false);
+  const [initialCardsOut, setInitialCardsOut] = useState(false);
   const [playerCardCount, setPlayerCardCount] = useState([]);
   const [runningCount, setRunningCount] = useState(0);
   const [allowReset, setAllowReset] = useState(false);
@@ -204,13 +205,13 @@ export default function Shoe() {
       if (i >= totalCards || updatedDrawPile.length === 0) {
         setHands(dealtHands);
         setDrawPile(updatedDrawPile);
+        setInitialCardsOut(true);
         return;
       }
 
       const currentCard = updatedDrawPile.pop();
       const playerIndex = i % (players + 1);
       dealtHands[playerIndex].push(currentCard);
-
       setHands([...dealtHands]);
       setDrawPile([...updatedDrawPile]);
       setTimeout(() => dealCard(i + 1), 800);
@@ -223,6 +224,7 @@ export default function Shoe() {
   }
   function startGame() {
     setHands([]);
+    setInitialCardsOut(false);
     setPlayerCardCount([]);
     setPosition(0);
     setPlaying(true);
@@ -237,19 +239,21 @@ export default function Shoe() {
             <div className="blank">
               <h2 className="noPlayerHeading">How many players?</h2>
               <h3 className="noPlayerSubheading">(1-6 players)</h3>
-              <div className="noPlayerButtonBox">
-                {playerAmount.map((number) => (
-                  <button
-                    onClick={(e) => handlePlayerAmount(e, number)}
-                    value={number}
-                    disabled={players}
-                    className="noPlayerButton"
-                  >
-                    {number}
-                  </button>
-                ))}
-              </div>
-              {!playing && players ? (
+              {!players && (
+                <div className="noPlayerButtonBox">
+                  {playerAmount.map((number) => (
+                    <button
+                      onClick={(e) => handlePlayerAmount(e, number)}
+                      value={number}
+                      className="noPlayerButton"
+                    >
+                      {number}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {players ? <h3>{players} player Blackjack</h3> : null}
+              {!playing && players  && !allowReset ? (
                 <div className="startButtonBox">
                   <button onClick={startGame} className="startButton">
                     {" "}
@@ -276,11 +280,16 @@ export default function Shoe() {
                       <Card value={card.value} suit={card.suit} />
                     ))}
                   </div>
-                  {playerIndex !== hands.length - 1 &&
+                  {initialCardsOut &&
+                    playerIndex !== hands.length - 1 &&
                     playerIndex === position && (
                       <div className="playerActions">
-                        <button onClick={hitCards}>Take Card</button>
-                        <button onClick={stay}>Stay</button>
+                        <button className="cardActionButton" onClick={hitCards}>
+                          🥊
+                        </button>
+                        <button className="cardActionButton" onClick={stay}>
+                          🛑
+                        </button>
                       </div>
                     )}
                 </div>
@@ -288,7 +297,7 @@ export default function Shoe() {
             </div>
           </div>
         ) : null}
-        {allowReset && <button onClick={startGame}>Replay</button>}
+        {allowReset && !playing && <button onClick={startGame}>Replay</button>}
         <div className="cardCountBox">
           {playing && (
             <button className="cardCountButton" onClick={allowShowingCardCount}>
