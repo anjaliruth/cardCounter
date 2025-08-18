@@ -277,7 +277,9 @@ export default function Shoe() {
                 <div className="playerSection">
                   <div className="playerCards">
                     {hands[playerIndex]?.map((card, cardIndex) => (
+                      <div key={cardIndex} className="positionHolder" style={{top: `${cardIndex*25}px`}}>
                       <Card value={card.value} suit={card.suit} />
+                      </div>
                     ))}
                   </div>
                   {initialCardsOut &&
