@@ -1,11 +1,10 @@
 import React from "react";
 
-export default function Card({ value, suit}) {
+export default function Card({ value, suit }) {
   return (
     <div className="Card">
-      {value}
-
-      {suit}
+      <div className="cardValue">{value}</div>
+      <div className="cardSuit">{suit}</div>
     </div>
   );
 }

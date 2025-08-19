@@ -164,34 +164,24 @@ export default function Shoe() {
   }
 
   function countTo21(currPosition) {
-    let isSoft = false;
-    const count = hands[currPosition].reduce(function changePicture(
-      accumulator,
-      currentValue
-    ) {
-      if (currentValue.value === "A") {
-        if (accumulator + 11 < 21) {
-          isSoft = true;
-          return accumulator + 11;
-        } else {
-          return accumulator + 1;
-        }
+    let total = 0;
+    let aces = 0;
+    for (let card of hands[currPosition]) {
+      if (card.value === "A") {
+        aces += 1;
+        total += 11;
+      } else if (isPicture(card.value)) {
+        total += 10;
+      } else {
+        total += Number(card.value);
       }
-      //previous value is Ace
-
-      if (isPicture(currentValue.value)) {
-        return accumulator + 10;
-      }
-      //need to move this out
-      return accumulator + currentValue.value;
-    },
-    0);
-    if (isSoft && count > 21) {
-      isSoft = false;
-      console.log(isSoft, "isSoft");
-      return count - 10;
     }
-    return count;
+
+    while (total > 21 && aces > 0) {
+      total -= 10;
+      aces -= 1;
+    }
+    return total;
   }
 
   function assignHands() {
@@ -252,8 +242,10 @@ export default function Shoe() {
                   ))}
                 </div>
               )}
-              {players ? <h3>{players} player Blackjack</h3> : null}
-              {!playing && players  && !allowReset ? (
+              {players && !playing && !allowReset ? (
+                <h3>{players} player Blackjack</h3>
+              ) : null}
+              {!playing && players && !allowReset ? (
                 <div className="startButtonBox">
                   <button onClick={startGame} className="startButton">
                     {" "}
@@ -267,20 +259,37 @@ export default function Shoe() {
         {hands.length > 0 ? (
           <div className="playAreaContainer">
             <div className="dealerSection">
-              {hands[players]?.map((card, cardIndex) => (
-                <Card key={cardIndex} value={card.value} suit={card.suit} />
-              ))}
+              <div className="individualCardStack">
+                {hands[players]?.map((card, cardIndex) => (
+                  <div
+                    key={cardIndex}
+                    className="positionHolder"
+                    style={{ left: `${cardIndex * 25}px` }}
+                  >
+                    <Card key={cardIndex} value={card.value} suit={card.suit} />
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="playArea">
               {Array.from({ length: players }).map((_, playerIndex) => (
                 <div className="playerSection">
                   <div className="playerCards">
-                    {hands[playerIndex]?.map((card, cardIndex) => (
-                      <div key={cardIndex} className="positionHolder" style={{top: `${cardIndex*25}px`}}>
-                      <Card value={card.value} suit={card.suit} />
-                      </div>
-                    ))}
+                    <div className="individualCardStack">
+                      {hands[playerIndex]?.map((card, cardIndex) => (
+                        <div
+                          key={cardIndex}
+                          className="positionHolder"
+                          style={{
+                            top: `${cardIndex * 15}px`,
+                            left: `${cardIndex * 20}px`,
+                          }}
+                        >
+                          <Card value={card.value} suit={card.suit} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   {initialCardsOut &&
                     playerIndex !== hands.length - 1 &&
@@ -306,7 +315,12 @@ export default function Shoe() {
               {showCardCount ? "Hide Card Count" : "Show Card Count"}
             </button>
           )}
-          {showCardCount && <h1 className="cardCount">{runningCount}</h1>}
+          <h1
+            className="cardCount"
+            style={{ visibility: showCardCount ? "visible" : "hidden" }}
+          >
+            {runningCount}
+          </h1>
         </div>
       </div>
     </div>
