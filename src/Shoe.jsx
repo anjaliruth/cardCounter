@@ -219,6 +219,10 @@ export default function Shoe() {
     setPosition(0);
     setPlaying(true);
   }
+
+  function resetPlayers() {
+    setPlayers(0);
+  }
   let playerAmount = [1, 2, 3, 4, 5, 6];
 
   return (
@@ -256,7 +260,18 @@ export default function Shoe() {
             </div>
           )}
         </div>
-        {hands.length > 0 ? (
+        {allowReset && !!players && (
+          <div>
+            <h1> Round Over!</h1>
+            <div>
+              <button onClick={startGame}>Replay</button>
+            </div>
+            <div>
+              <button onClick={resetPlayers}>Change amount of players?</button>
+            </div>
+          </div>
+        )}
+        {hands.length > 0 && !!players ? (
           <div className="playAreaContainer">
             <div className="dealerSection">
               <div className="individualCardStack">
@@ -308,7 +323,7 @@ export default function Shoe() {
             </div>
           </div>
         ) : null}
-        {allowReset && !playing && <button onClick={startGame}>Replay</button>}
+
         <div className="cardCountBox">
           {playing && (
             <button className="cardCountButton" onClick={allowShowingCardCount}>
