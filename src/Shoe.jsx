@@ -275,6 +275,7 @@ export default function Shoe() {
           <div className="playAreaContainer">
             <div className="dealerSection">
               <div className="individualCardStack">
+                <h1>DEALER</h1>
                 {hands[players]?.map((card, cardIndex) => (
                   <div
                     key={cardIndex}
@@ -292,6 +293,7 @@ export default function Shoe() {
                 <div className="playerSection">
                   <div className="playerCards">
                     <div className="individualCardStack">
+                      <h1>Player {players}</h1>
                       {hands[playerIndex]?.map((card, cardIndex) => (
                         <div
                           key={cardIndex}
