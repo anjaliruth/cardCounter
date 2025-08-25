@@ -113,7 +113,7 @@ export default function Card({ value, suit }) {
             style={{
               left: `${x}%`,
               top: `${y}%`,
-              fontSize: value === "A" ? "28px" : "14px",
+              fontSize: value === "A" || isPicture(value) ? "28px" : "14px",
             }}
           >
             {isPicture(value) ? returnPicture(value) : suit}
