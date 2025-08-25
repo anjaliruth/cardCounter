@@ -3,6 +3,10 @@
 }
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap");
 
+
+.chars {
+  background-color: #e6d8a2;
+}
 body {
   font-family: "Cinzel Decorative", serif;
 }
@@ -16,13 +20,16 @@ body {
   background-color: #1a4861;
 }
 
+
 .playAreaContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #2c5327;
+  background: radial-gradient(circle at center, #006400, #013220);
   padding: 20px;
   gap: 20px;
+  width: 100vh;
+  height: 100vh;
 }
 
 .noPlayerButton:hover,
@@ -37,12 +44,21 @@ body {
   display: flex;
   justify-content: center;
 }
+
+.semiCircle {
+  position: relative;
+  width: 360px;
+  height: 180px;
+  border-radius: 0 0 180px 180px;
+  /* overflow: hidden; */
+}
+
 .playArea {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
-  background-color: #2c5327;
+  /* background-color: #2c5327; */
   border-radius: 2px;
   min-height: 40vh;
   min-width: 80vh;
@@ -159,22 +175,25 @@ body {
   /* background-color: #ffffff; */
 }
 .cardActionButton {
-  background-color: #2c5327;
-  border: 2px solid #e6d8a2;
-  border-radius: 5px;
-  min-width: 30px;
-  font-size: 20px;
-  min-height: 30px;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  background: radial-gradient(circle, goldenrod, rgb(174, 169, 4));
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+  cursor: pointer;
 }
 
 .Card {
   width: 80px;
   height: 120px;
   border: 1px solid #000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.8);
   border-radius: 10px;
   background: white;
   position: relative;
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
 }
 .corner {
   position: absolute;

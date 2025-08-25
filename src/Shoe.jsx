@@ -9,6 +9,7 @@ import {
   lowCards,
   highCards,
 } from "./library.js";
+import SemiCircleText from "./SemicircleText.js";
 export default function Shoe() {
   const [players, setPlayers] = useState(0);
   const [hands, setHands] = useState([]);
@@ -282,10 +283,21 @@ export default function Shoe() {
                     className="positionHolder"
                     style={{ left: `${cardIndex * 25}px` }}
                   >
-                    <Card key={cardIndex} value={card.value} suit={card.suit} />
+                    <Card
+                      key={cardIndex}
+                      value={card.value}
+                      suit={card.suit}
+                      style={{
+                        transform: `rotate(${cardIndex * 3}deg)`,
+                        marginLeft: `${cardIndex * -50}px`,
+                      }}
+                    />
                   </div>
                 ))}
               </div>
+            </div>
+            <div className="semiCircle">
+              <SemiCircleText text="BLACKJACK CASINO" radius={180} />
             </div>
 
             <div className="playArea">
@@ -293,7 +305,7 @@ export default function Shoe() {
                 <div className="playerSection">
                   <div className="playerCards">
                     <div className="individualCardStack">
-                      <h1>Player {players}</h1>
+                      <h1>Player {playerIndex + 1}</h1>
                       {hands[playerIndex]?.map((card, cardIndex) => (
                         <div
                           key={cardIndex}
