@@ -24,7 +24,7 @@ return (
             style={{
             position: "absolute",
             left: `${x}px`,
-              top: `${y}px`,
+            top: `${y}px`,
             transform: `translate(-50%, -50%) rotate(${
                 angle * (180 / Math.PI) - 90
             }deg)`,

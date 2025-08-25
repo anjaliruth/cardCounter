@@ -1,4 +1,5 @@
 import React from "react";
+import { isPicture } from "./library";
 
 export default function Card({ value, suit }) {
   const isRed = suit === "❤️" || suit === "♦️";
@@ -81,6 +82,16 @@ export default function Card({ value, suit }) {
 
   const pips = pipLayouts[value] || [[50, 50]];
 
+  function returnPicture(value){
+    if (value === 'J'){
+      return '🤵'
+    }
+    else if (value === 'Q'){
+      return '👸'
+    }
+    else return '🤴'
+  }
+
   return (
     <div className="Card">
       <div className={`corner top-left ${isRed ? "red" : "black"}`}>
@@ -92,7 +103,9 @@ export default function Card({ value, suit }) {
         <span  className="suitSymbol">{suit}</span>
       </div>
 
+
       <div className="pipHolder">
+      
         {pips.map(([x, y], i) => (
           <div
             key={i}
@@ -103,7 +116,7 @@ export default function Card({ value, suit }) {
               fontSize: value === "A" ? "28px" : "14px",
             }}
           >
-            {suit}
+            {isPicture(value) ? returnPicture(value) : suit}
           </div>
         ))}
       </div>
