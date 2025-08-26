@@ -18,6 +18,7 @@ export default function Shoe() {
   const [position, setPosition] = useState(0);
   const [isDealer, setIsDealer] = useState(false);
   const [initialCardsOut, setInitialCardsOut] = useState(false);
+  const [isChangePlayers, setIsChangePlayers] = useState(true);
   const [playerCardCount, setPlayerCardCount] = useState([]);
   const [runningCount, setRunningCount] = useState(0);
   const [allowReset, setAllowReset] = useState(false);
@@ -219,13 +220,16 @@ export default function Shoe() {
     setPlayerCardCount([]);
     setPosition(0);
     setPlaying(true);
+    setIsChangePlayers(false);
   }
 
   function resetPlayers() {
+    setIsChangePlayers(true);
     setPlayers(0);
   }
   let playerAmount = [1, 2, 3, 4, 5, 6];
-
+  console.log(playing, "playing");
+  console.log(allowReset, "allowReset");
   return (
     <div className="displayArea">
       <div className="infoSection">
@@ -247,21 +251,22 @@ export default function Shoe() {
                   ))}
                 </div>
               )}
-              {players && !playing && !allowReset ? (
-                <h3>{players} player Blackjack</h3>
-              ) : null}
-              {!playing && players && !allowReset ? (
-                <div className="startButtonBox">
-                  <button onClick={startGame} className="startButton">
-                    {" "}
-                    Start Round
-                  </button>
+              {(!playing && players && !allowReset) ||
+              (!playing && players && isChangePlayers) ? (
+                <div>
+                  <h3>{players} player Blackjack</h3>
+                  <div className="startButtonBox">
+                    <button onClick={startGame} className="startButton">
+                      {" "}
+                      Start Round
+                    </button>
+                  </div>
                 </div>
               ) : null}
             </div>
           )}
         </div>
-        {allowReset && !!players && (
+        {allowReset && !!players && !playing && !isChangePlayers && (
           <div>
             <h1> Round Over!</h1>
             <div>
@@ -272,7 +277,7 @@ export default function Shoe() {
             </div>
           </div>
         )}
-        {hands.length > 0 && !!players ? (
+        {hands.length > 0 && !!players && !isChangePlayers ? (
           <div className="playAreaContainer">
             <div className="dealerSection">
               <div className="individualCardStack">
@@ -344,9 +349,10 @@ export default function Shoe() {
               {showCardCount ? "Hide Card Count" : "Show Card Count"}
             </button>
           )}
+
           <h1
             className="cardCount"
-            style={{ visibility: showCardCount ? "visible" : "hidden" }}
+            style={{ visibility: showCardCount && playing ? "visible" : "hidden" }}
           >
             {runningCount}
           </h1>
