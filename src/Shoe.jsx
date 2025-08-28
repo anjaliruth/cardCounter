@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import Card from "./Card";
-import { DrawPileContext } from "./App.js";
+import Dealer from "./Dealer.jsx";
+import IndividualPlayer from "./IndividualPlayer.jsx";
+import PlayerInfo from "./PlayerInfo.jsx";
+import { DrawPileContext } from "./App.jsx";
 import {
   shoe,
   numbersAndPictures,
@@ -10,11 +13,12 @@ import {
   highCards,
 } from "./library.js";
 import SemiCircleText from "./SemicircleText.js";
+import GameControl from "./GameControls.jsx";
 export default function Shoe() {
   const [players, setPlayers] = useState(0);
   const [hands, setHands] = useState([]);
   const [playing, setPlaying] = useState(false);
-  const { drawPile, setDrawPile } = useContext(DrawPileContext);
+  const [drawPile, setDrawPile] = useState([]);
   const [position, setPosition] = useState(0);
   const [isDealer, setIsDealer] = useState(false);
   const [initialCardsOut, setInitialCardsOut] = useState(false);
@@ -227,79 +231,41 @@ export default function Shoe() {
     setIsChangePlayers(true);
     setPlayers(0);
   }
-  let playerAmount = [1, 2, 3, 4, 5, 6];
   console.log(playing, "playing");
+  console.log(allowReset, "allowReset");
+  console.log(players, "players");
   console.log(allowReset, "allowReset");
   return (
     <div className="displayArea">
       <div className="infoSection">
         <div className="noPlayer">
-          {!playing && (
-            <div className="blank">
-              <h2 className="noPlayerHeading">How many players?</h2>
-              <h3 className="noPlayerSubheading">(1-6 players)</h3>
-              {!players && (
-                <div className="noPlayerButtonBox">
-                  {playerAmount.map((number) => (
-                    <button
-                      onClick={(e) => handlePlayerAmount(e, number)}
-                      value={number}
-                      className="noPlayerButton"
-                    >
-                      {number}
-                    </button>
-                  ))}
-                </div>
-              )}
-              {(!playing && players && !allowReset) ||
-              (!playing && players && isChangePlayers) ? (
-                <div>
-                  <h3>{players} player Blackjack</h3>
-                  <div className="startButtonBox">
-                    <button onClick={startGame} className="startButton">
-                      {" "}
-                      Start Round
-                    </button>
-                  </div>
-                </div>
-              ) : null}
-            </div>
+          {!playing && !allowReset && (
+            <PlayerInfo handlePlayerAmount={handlePlayerAmount} />
+          )}
+          {!playing && players > 0 && !allowReset && (
+            <GameControl
+              playing={playing}
+              players={players}
+              startGame={startGame}
+              showReplay={false}
+              resetPlayers={resetPlayers}
+            />
+          )}
+          {!playing && players > 0 && allowReset && (
+            <GameControl
+              playing={playing}
+              players={players}
+              startGame={startGame}
+              showReplay={true}
+              resetPlayers={resetPlayers}
+            />
           )}
         </div>
-        {allowReset && !!players && !playing && !isChangePlayers && (
-          <div>
-            <h1> Round Over!</h1>
-            <div>
-              <button onClick={startGame}>Replay</button>
-            </div>
-            <div>
-              <button onClick={resetPlayers}>Change amount of players?</button>
-            </div>
-          </div>
-        )}
+
         {hands.length > 0 && !!players && !isChangePlayers ? (
           <div className="playAreaContainer">
             <div className="dealerSection">
-              <div className="individualCardStack">
-                <h1>DEALER</h1>
-                {hands[players]?.map((card, cardIndex) => (
-                  <div
-                    key={cardIndex}
-                    className="positionHolder"
-                    style={{ left: `${cardIndex * 25}px` }}
-                  >
-                    <Card
-                      key={cardIndex}
-                      value={card.value}
-                      suit={card.suit}
-                      style={{
-                        transform: `rotate(${cardIndex * 3}deg)`,
-                        marginLeft: `${cardIndex * -50}px`,
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
+              <Dealer hands={hands} players={players} />
             </div>
             <div className="semiCircle">
               <SemiCircleText text="BLACKJACK CASINO" radius={180} />
@@ -309,34 +275,15 @@ export default function Shoe() {
               {Array.from({ length: players }).map((_, playerIndex) => (
                 <div className="playerSection">
                   <div className="playerCards">
-                    <div className="individualCardStack">
-                      <h1>Player {playerIndex + 1}</h1>
-                      {hands[playerIndex]?.map((card, cardIndex) => (
-                        <div
-                          key={cardIndex}
-                          className="positionHolder"
-                          style={{
-                            top: `${cardIndex * 15}px`,
-                            left: `${cardIndex * 20}px`,
-                          }}
-                        >
-                          <Card value={card.value} suit={card.suit} />
-                        </div>
-                      ))}
-                    </div>
+                    <IndividualPlayer
+                      playerIndex={playerIndex}
+                      hands={hands}
+                      initialCardsOut={initialCardsOut}
+                      hitCards={hitCards}
+                      stay={stay}
+                      position={position}
+                    />
                   </div>
-                  {initialCardsOut &&
-                    playerIndex !== hands.length - 1 &&
-                    playerIndex === position && (
-                      <div className="playerActions">
-                        <button className="cardActionButton" onClick={hitCards}>
-                          🥊
-                        </button>
-                        <button className="cardActionButton" onClick={stay}>
-                          🛑
-                        </button>
-                      </div>
-                    )}
                 </div>
               ))}
             </div>
@@ -349,10 +296,11 @@ export default function Shoe() {
               {showCardCount ? "Hide Card Count" : "Show Card Count"}
             </button>
           )}
-
           <h1
             className="cardCount"
-            style={{ visibility: showCardCount && playing ? "visible" : "hidden" }}
+            style={{
+              visibility: showCardCount && playing ? "visible" : "hidden",
+            }}
           >
             {runningCount}
           </h1>

@@ -23,9 +23,7 @@ function App() {
 
   return (
     <div className="App">
-      <DrawPileContext.Provider value={{drawPile, setDrawPile}}>
       <Shoe/>
-      </DrawPileContext.Provider>
     </div>
   );
 }
