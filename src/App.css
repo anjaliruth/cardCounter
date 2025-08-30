@@ -68,6 +68,8 @@ body {
   /* background-color: #e6d8a2; */
   position: absolute;
   align-self: center;
+  margin-left: 25px;
+  margin-top: 10px;
   top: 0;
   left: 0;
 }
@@ -99,6 +101,7 @@ body {
   border: 2px solid #e6d8a2;
   border-radius: 10px;
   min-height: 180px;
+  /* background-color: #1a4861; */
 }
 
 .noPlayer {
@@ -172,7 +175,9 @@ body {
 
 .playerActions {
   display: flex;
+  justify-content: center;
   gap: 10px;
+  margin: 20px;
   /* background-color: #ffffff; */
 }
 .cardActionButton {
