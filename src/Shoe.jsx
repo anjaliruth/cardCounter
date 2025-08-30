@@ -240,6 +240,17 @@ export default function Shoe() {
             />
           )}
         </div>
+         {!playing && players > 0 && allowReset && (
+      <div className="resetControl" >
+            <GameControl
+              playing={playing}
+              players={players}
+              startGame={startGame}
+              showReplay={true}
+              resetPlayers={resetPlayers}
+            />
+          </div>
+          )}
 
         {hands.length > 0 && !!players && !isChangePlayers ? (
           <div className="playAreaContainer">
@@ -273,17 +284,6 @@ export default function Shoe() {
         <CardCount playing={playing} allowShowingCardCount={allowShowingCardCount} showCardCount={showCardCount} runningCount={runningCount}/>
         </div>
       </div>
-      {!playing && players > 0 && allowReset && (
-      <div className="resetControl" >
-            <GameControl
-              playing={playing}
-              players={players}
-              startGame={startGame}
-              showReplay={true}
-              resetPlayers={resetPlayers}
-            />
-          </div>
-          )}
          
     </div>
   );

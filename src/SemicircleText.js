@@ -29,9 +29,8 @@ export default function SemiCircleText({ text, radius }) {
                 }deg)`,
                 transformOrigin: "center",
                 fontSize: "15px",
-                color: "black",
+                color: "white",
                 whiteSpace: "pre",
-                backgroundColor: '#ffffff'
               }}
             >
               {char}
