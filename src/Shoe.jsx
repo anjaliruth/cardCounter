@@ -3,6 +3,7 @@ import Card from "./Card";
 import Dealer from "./Dealer.jsx";
 import IndividualPlayer from "./IndividualPlayer.jsx";
 import PlayerInfo from "./PlayerInfo.jsx";
+import CardCount from "./CardCount.jsx";
 import { DrawPileContext } from "./App.jsx";
 import {
   shoe,
@@ -27,19 +28,6 @@ export default function Shoe() {
   const [runningCount, setRunningCount] = useState(0);
   const [allowReset, setAllowReset] = useState(false);
   const [showCardCount, setShowCardCount] = useState(false);
-
-  //## get all 52 x 6 card datadata✅
-  //store them in a state called Draw pile✅
-  //shuffle cards
-  //set the number of people
-  //draw cards
-
-  //remove cards from draw pile
-  //do count
-  //end of hand
-  //calculate remainder of draw pile
-
-  //calculates cardCount
 
   function handlePlayerAmount(e, number) {
     console.log(e.target.value, "e.target.value");
@@ -251,7 +239,9 @@ export default function Shoe() {
               resetPlayers={resetPlayers}
             />
           )}
-          {!playing && players > 0 && allowReset && (
+        </div>
+         {!playing && players > 0 && allowReset && (
+      <div className="resetControl" >
             <GameControl
               playing={playing}
               players={players}
@@ -259,8 +249,8 @@ export default function Shoe() {
               showReplay={true}
               resetPlayers={resetPlayers}
             />
+          </div>
           )}
-        </div>
 
         {hands.length > 0 && !!players && !isChangePlayers ? (
           <div className="playAreaContainer">
@@ -291,21 +281,10 @@ export default function Shoe() {
         ) : null}
 
         <div className="cardCountBox">
-          {playing && (
-            <button className="cardCountButton" onClick={allowShowingCardCount}>
-              {showCardCount ? "Hide Card Count" : "Show Card Count"}
-            </button>
-          )}
-          <h1
-            className="cardCount"
-            style={{
-              visibility: showCardCount && playing ? "visible" : "hidden",
-            }}
-          >
-            {runningCount}
-          </h1>
+        <CardCount playing={playing} allowShowingCardCount={allowShowingCardCount} showCardCount={showCardCount} runningCount={runningCount}/>
         </div>
       </div>
+         
     </div>
   );
 }

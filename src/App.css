@@ -47,10 +47,10 @@ body {
 
 .semiCircle {
   position: relative;
-  width: 360px;
-  height: 180px;
+  width: 450px;
+  height: 150px;
   border-radius: 0 0 180px 180px;
-  /* overflow: hidden; */
+/* background-color: #ffffff; */
 }
 
 .playArea {
@@ -98,9 +98,9 @@ body {
 .individualCardStack{
   position: relative;
   min-width: 150px;
-  border: 2px solid #e6d8a2;
+  border: 2px solid #e6d842;
   border-radius: 10px;
-  min-height: 180px;
+  min-height: 160px;
   /* background-color: #1a4861; */
 }
 
@@ -146,8 +146,16 @@ body {
   flex-direction: column;
   justify-content: center;
   gap: 40px;
+  background-color: #ffffff;
 }
 
+
+.resetControl{
+  z-index: 100;
+  background-color: pink;
+  min-width: 100%;
+  min-height: 100%;
+}
 .startButtonBox {
   display: flex;
   justify-content: center;
@@ -177,8 +185,8 @@ body {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin: 20px;
-  /* background-color: #ffffff; */
+  margin-top: 30px;
+  background-color: #ffffff;
 }
 .cardActionButton {
   border: none;
