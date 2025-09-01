@@ -98,7 +98,7 @@ export default function Shoe() {
         calculatePlayerCardCount(players);
       }
       if (dealerCardCount >= 17) {
-        setAllowReset(true);
+        setTimeout(()=> { setAllowReset(true)}, 1500)
         setPlaying(false);
         setIsDealer(false);
       }
@@ -218,17 +218,20 @@ export default function Shoe() {
   function resetPlayers() {
     setIsChangePlayers(true);
     setPlayers(0);
+    setAllowReset(false);
+  
   }
-  console.log(playing, "playing");
-  console.log(allowReset, "allowReset");
-  console.log(players, "players");
-  console.log(allowReset, "allowReset");
+
+  console.log(isChangePlayers, 'isChangePlayers')
+
   return (
     <div className="displayArea">
       <div className="infoSection">
         <div className="noPlayer">
           {!playing && !allowReset && (
+            <div className="playerInfoWrapper">
             <PlayerInfo handlePlayerAmount={handlePlayerAmount} />
+            </div>
           )}
           {!playing && players > 0 && !allowReset && (
             <GameControl
@@ -258,7 +261,7 @@ export default function Shoe() {
               <Dealer hands={hands} players={players} />
             </div>
             <div className="semiCircle">
-              <SemiCircleText text="BLACKJACK CASINO" radius={180} />
+              <SemiCircleText text="BLACKJACK CARDCOUNTER" radius={180} />
             </div>
 
             <div className="playArea">
