@@ -18,6 +18,7 @@ import GameControl from "./GameControls.jsx";
 export default function Shoe() {
   const [players, setPlayers] = useState(0);
   const [hands, setHands] = useState([]);
+  const [initialStart, setInitialStart] = useState(false)
   const [playing, setPlaying] = useState(false);
   const [drawPile, setDrawPile] = useState([]);
   const [position, setPosition] = useState(0);
@@ -223,17 +224,20 @@ export default function Shoe() {
   }
 
   console.log(isChangePlayers, 'isChangePlayers')
-
+  console.log(players, 'players')
+  console.log(playing, players, allowReset, 'ppa')
   return (
     <div className="displayArea">
       <div className="infoSection">
         <div className="noPlayer">
-          {!playing && !allowReset && (
+          {(!drawPile || isChangePlayers ) && (
             <div className="playerInfoWrapper">
             <PlayerInfo handlePlayerAmount={handlePlayerAmount} />
             </div>
           )}
-          {!playing && players > 0 && !allowReset && (
+          {(!drawPile || isChangePlayers ) &&  (
+            <div >
+            <div>hello</div>
             <GameControl
               playing={playing}
               players={players}
@@ -241,6 +245,7 @@ export default function Shoe() {
               showReplay={false}
               resetPlayers={resetPlayers}
             />
+            </div>
           )}
         </div>
          {!playing && players > 0 && allowReset && (

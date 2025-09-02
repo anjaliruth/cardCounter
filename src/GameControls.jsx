@@ -19,8 +19,8 @@ export default function GameControl({
                 Play Again
               </button>
             </div>
-            <button onClick={resetPlayers} className="startButton">
-              Change amount of players
+            <button onClick={resetPlayers} className="mutedButton">
+              🔄 # players
             </button>
           </div>
         </div>

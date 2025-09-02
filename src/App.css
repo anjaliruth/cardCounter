@@ -99,7 +99,7 @@ body {
   min-width: 140px;
   border: 2px solid #e6d842;
   border-radius: 10px;
-  min-height: 160px;
+  min-height: 180px;
   /* background-color: #1a4861; */
 }
 
@@ -199,6 +199,16 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
 }
+.mutedButton{
+    background-color: #2c5327;
+  border: 3px solid #e6d8a2;
+  color: #e6d8a2;
+  font-weight: bold;
+  font-size: 20px;
+  min-width: 100px;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
 
 .playerSection {
   display: flex;
@@ -213,7 +223,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 30px;
+  margin-top: 50px;
   /* background-color: #ffffff; */
 }
 .cardActionButton {
