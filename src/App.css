@@ -1,8 +1,7 @@
 .App {
-  text-align: center
+  text-align: center;
 }
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap");
-
 
 .chars {
   background-color: #e6d8a2;
@@ -12,24 +11,23 @@ body {
 }
 
 .displayArea {
-  padding-top: 300px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 140vh;
+  min-height: 100vh;
   background: radial-gradient(circle at center, #006400, #013220);
 }
 
-
 .playAreaContainer {
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
   /* background: radial-gradient(circle at center, #006400, #013220); */
   width: 100vh;
-  height: 70vh;
-
+  height: 100vh;
+  /* background-color: #e6d842; */
 }
 
 .noPlayerButton:hover,
@@ -50,7 +48,7 @@ body {
   width: 360px;
   height: 150px;
   border-radius: 0 0 180px 180px;
-/* background-color: #ffffff; */
+  /* background-color: #ffffff; */
 }
 
 .playArea {
@@ -58,10 +56,11 @@ body {
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
-  /* background-color: #2c5327; */
+  background-color: #2c5327;
   border-radius: 2px;
   min-height: 40vh;
-  min-width: 80vh;
+  min-width: 50vh;
+  gap: 50px;
 }
 
 .positionHolder {
@@ -81,6 +80,7 @@ body {
   min-width: 120px;
   min-height: 300px;
   gap: 40px;
+  /* background-color: #013220; */
 }
 
 .playerCards {
@@ -94,7 +94,7 @@ body {
   /* background-color: #ff99ff; */
 }
 
-.individualCardStack{
+.individualCardStack {
   position: relative;
   min-width: 140px;
   border: 2px solid #e6d842;
@@ -111,6 +111,7 @@ body {
 
 .noPlayerButtonBox {
   display: flex;
+  justify-content: center;
   flex-direction: row;
   gap: 10px;
 }
@@ -132,9 +133,11 @@ body {
   color: #e6d8a2;
 }
 .infoSection {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   /* background-color: blue; */
   height: 30vh;
   gap: 20px;
@@ -149,40 +152,38 @@ body {
 }
 
 
-.resetControl{
-  position: fixed;  
+.resetControl {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   align-items: space-evenly;
   justify-content: space-evenly;
-  z-index: 9999;  
+  z-index: 9999;
 }
 
-
-.roundOverText{
-  color: #ffffff
+.roundOverText {
+  color: #ffffff;
 }
 
-.roundOverDisplay{
+.roundOverDisplay {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 100px;
 }
 
-.roundOverButtons{
+.roundOverButtons {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  margin:0 auto;
+  margin: 0 auto;
   gap: 100px;
-  /* background-color: #006400; */
 }
 .startButtonBox {
   display: flex;
@@ -190,22 +191,25 @@ body {
   /* background-color: antiquewhite; */
 }
 .startButton {
+  background-color: #2c5327;
+  border: 3px solid #e6d8a2;
+  color: #e6d8a2;
+  font-weight: bold;
+  font-size: 20px;
+  min-width: 300px;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+.mutedButton {
+  display: flex;
+  align-self: center;
+  text-align: center;
   background-color: #e6d8a2;
   border: 3px solid #2c5327;
   color: #2c5327;
   font-weight: bold;
   font-size: 20px;
-  min-width: 100px;
-  padding: 10px 20px;
-  border-radius: 5px;
-}
-.mutedButton{
-    background-color: #2c5327;
-  border: 3px solid #e6d8a2;
-  color: #e6d8a2;
-  font-weight: bold;
-  font-size: 20px;
-  min-width: 100px;
+  width: 200px;
   padding: 10px 20px;
   border-radius: 5px;
 }
@@ -234,7 +238,7 @@ body {
   font-size: 24px;
   background: radial-gradient(circle, goldenrod, rgb(174, 169, 4));
   color: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
 
@@ -242,7 +246,7 @@ body {
   width: 80px;
   height: 120px;
   border: 1px solid #000;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
   border-radius: 10px;
   background: white;
   position: relative;
@@ -256,13 +260,20 @@ body {
   align-items: center;
 }
 
-.suitSymbol{
+.suitSymbol {
   font-size: 10px;
 }
-.top-left { top: 5px; left: 5px; }
-.bottom-right { bottom: 5px; right: 5px; transform: rotate(180deg); }
+.top-left {
+  top: 5px;
+  left: 5px;
+}
+.bottom-right {
+  bottom: 5px;
+  right: 5px;
+  transform: rotate(180deg);
+}
 
-.pipHolder{
+.pipHolder {
   display: flex;
   background-color: aqua;
 }
@@ -273,16 +284,20 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.red { color: red; }
-.black { color: black; }
+.red {
+  color: red;
+}
+.black {
+  color: black;
+}
 
-.cardValue{
+.cardValue {
   display: flex;
   padding-left: 3px;
   /* background-color: #2c5327; */
 }
 
-.cardSuit{
+.cardSuit {
   display: flex;
   /* background-color: #e6d8a2; */
   font-size: 12px;

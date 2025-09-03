@@ -18,7 +18,7 @@ import GameControl from "./GameControls.jsx";
 export default function Shoe() {
   const [players, setPlayers] = useState(0);
   const [hands, setHands] = useState([]);
-  const [initialStart, setInitialStart] = useState(false)
+  const [initialStart, setInitialStart] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [drawPile, setDrawPile] = useState([]);
   const [position, setPosition] = useState(0);
@@ -82,6 +82,14 @@ export default function Shoe() {
     setHands(dealtHands);
     return currentCard;
   }
+  function isDealerWon() {
+    for (let i = 0; i < playerCardCount.length; i++) {
+      if (playerCardCount[i] > 21) {
+          return true;
+          }
+        }
+        return false;
+      }
 
   useEffect(() => {
     setupShoe();
@@ -90,6 +98,17 @@ export default function Shoe() {
   useEffect(() => {
     if (!hands[players] || hands[players].length === 0) return;
     if (isDealer) {
+let stopCards = isDealerWon()
+console.log('koko')
+console.log(stopCards, 'stopCards')
+if (stopCards){
+     setTimeout(() => {
+          setAllowReset(true);
+        }, 1500);
+    setPlaying(false);
+    setIsDealer(false);
+}
+else{
       let dealerCardCount = calculatePlayerCardCount(players);
       if (dealerCardCount < 17) {
         setTimeout(() => {
@@ -99,11 +118,15 @@ export default function Shoe() {
         calculatePlayerCardCount(players);
       }
       if (dealerCardCount >= 17) {
-        setTimeout(()=> { setAllowReset(true)}, 1500)
+        setTimeout(() => {
+          setAllowReset(true);
+        }, 1500);
         setPlaying(false);
         setIsDealer(false);
       }
     }
+}
+
   }, [hands, isDealer]);
 
   useEffect(() => {
@@ -220,24 +243,18 @@ export default function Shoe() {
     setIsChangePlayers(true);
     setPlayers(0);
     setAllowReset(false);
-  
   }
 
-  console.log(isChangePlayers, 'isChangePlayers')
-  console.log(players, 'players')
-  console.log(playing, players, allowReset, 'ppa')
   return (
     <div className="displayArea">
       <div className="infoSection">
         <div className="noPlayer">
-          {(!drawPile || isChangePlayers ) && (
+          {(!drawPile || isChangePlayers) && (
             <div className="playerInfoWrapper">
-            <PlayerInfo handlePlayerAmount={handlePlayerAmount} />
+              <PlayerInfo handlePlayerAmount={handlePlayerAmount} />
             </div>
           )}
-          {(!drawPile || isChangePlayers ) &&  (
-            <div >
-            <div>hello</div>
+          {(!drawPile || isChangePlayers) && (
             <GameControl
               playing={playing}
               players={players}
@@ -245,11 +262,10 @@ export default function Shoe() {
               showReplay={false}
               resetPlayers={resetPlayers}
             />
-            </div>
           )}
         </div>
-         {!playing && players > 0 && allowReset && (
-      <div className="resetControl" >
+        {!playing && players > 0 && allowReset && (
+          <div className="resetControl">
             <GameControl
               playing={playing}
               players={players}
@@ -258,7 +274,7 @@ export default function Shoe() {
               resetPlayers={resetPlayers}
             />
           </div>
-          )}
+        )}
 
         {hands.length > 0 && !!players && !isChangePlayers ? (
           <div className="playAreaContainer">
@@ -289,10 +305,14 @@ export default function Shoe() {
         ) : null}
 
         <div className="cardCountBox">
-        <CardCount playing={playing} allowShowingCardCount={allowShowingCardCount} showCardCount={showCardCount} runningCount={runningCount}/>
+          <CardCount
+            playing={playing}
+            allowShowingCardCount={allowShowingCardCount}
+            showCardCount={showCardCount}
+            runningCount={runningCount}
+          />
         </div>
       </div>
-         
     </div>
   );
 }

@@ -7,32 +7,31 @@ export default function GameControl({
 }) {
   return (
     <div>
-      {!playing && !showReplay && <h3>{players} player Blackjack</h3>}
+      {(!playing && !showReplay && players) ? <h3>{players} player Blackjack</h3>: null}
 
       {showReplay && (
         <div className="roundOverDisplay">
           <h1 className="roundOverText"> Round Over!</h1>
 
           <div className="roundOverButtons">
-            <div className="startButtonBox">
               <button onClick={startGame} className="startButton">
                 Play Again
               </button>
-            </div>
+
             <button onClick={resetPlayers} className="mutedButton">
-              🔄 # players
+              Change Players
             </button>
           </div>
         </div>
       )}
 
-      {!showReplay && (
+      {!showReplay && players ? (
         <div className="startButtonBox">
           <button onClick={startGame} className="startButton">
             Start Round
           </button>
         </div>
-      )}
+      ): null}
     </div>
   );
 }
