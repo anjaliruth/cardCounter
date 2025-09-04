@@ -83,12 +83,13 @@ export default function Shoe() {
     return currentCard;
   }
   function isDealerWon() {
+    let dealerWin = true
     for (let i = 0; i < playerCardCount.length; i++) {
-      if (playerCardCount[i] > 21) {
-          return true;
+      if (playerCardCount[i] < 21) {
+          dealerWin =  false;
           }
         }
-        return false;
+        return dealerWin;
       }
 
   useEffect(() => {
@@ -99,7 +100,6 @@ export default function Shoe() {
     if (!hands[players] || hands[players].length === 0) return;
     if (isDealer) {
 let stopCards = isDealerWon()
-console.log('koko')
 console.log(stopCards, 'stopCards')
 if (stopCards){
      setTimeout(() => {
