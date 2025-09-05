@@ -1,12 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-import Card from './Card';
 import Shoe from './Shoe';
-import { useContext, createContext, useState } from 'react';
+import {createContext } from 'react';
 
 export const DrawPileContext = createContext();
 function App() {
-  const [ drawPile, setDrawPile ] = useState([]);
   // create deck of cards
   //create a shoe of 6 decks
   //create draw pile
