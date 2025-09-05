@@ -19,6 +19,10 @@ body {
   background: radial-gradient(circle at center, #006400, #013220);
 }
 
+
+.title{
+  color: white;
+}
 .playAreaContainer {
   display: flex;
   flex: 1;
@@ -56,7 +60,7 @@ body {
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
-  background-color: #2c5327;
+  /* background-color: #2c5327; */
   border-radius: 2px;
   min-height: 40vh;
   min-width: 50vh;
@@ -107,6 +111,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* background-color: #013220; */
+  gap: 30px
 }
 
 .noPlayerButtonBox {
@@ -114,6 +120,13 @@ body {
   justify-content: center;
   flex-direction: row;
   gap: 10px;
+}
+.startingScreen{
+top: 20px
+}
+.startingGameControl{
+/* background-color: #519948; */
+margin-top: 50px;
 }
 .noPlayerButton {
   color: #e6d8a2;
@@ -127,6 +140,12 @@ body {
   min-height: 40px;
 }
 
+.noPlayerButton:disabled{
+  color: gray;
+    border: 1.5px solid gray;
+}
+
+
 .noPlayerHeading,
 .noPlayerSubheading {
   margin: none;
@@ -139,7 +158,6 @@ body {
   justify-content: center;
   align-items: center;
   /* background-color: blue; */
-  height: 30vh;
   gap: 20px;
   padding: 20px;
 }
@@ -188,6 +206,7 @@ body {
 .startButtonBox {
   display: flex;
   justify-content: center;
+  margin-top: 30px;
   /* background-color: antiquewhite; */
 }
 .startButton {

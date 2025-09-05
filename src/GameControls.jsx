@@ -6,7 +6,7 @@ export default function GameControl({
   playing,
 }) {
   return (
-    <div>
+    <div className="startingGameControl">
       {(!playing && !showReplay && players) ? <h3>{players} player Blackjack</h3>: null}
 
       {showReplay && (

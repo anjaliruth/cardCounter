@@ -18,7 +18,6 @@ import GameControl from "./GameControls.jsx";
 export default function Shoe() {
   const [players, setPlayers] = useState(0);
   const [hands, setHands] = useState([]);
-  const [initialStart, setInitialStart] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [drawPile, setDrawPile] = useState([]);
   const [position, setPosition] = useState(0);
@@ -31,9 +30,7 @@ export default function Shoe() {
   const [showCardCount, setShowCardCount] = useState(false);
 
   function handlePlayerAmount(e, number) {
-    console.log(e.target.value, "e.target.value");
     setPlayers(number);
-    console.log(players, "players in handlePlayerAmount");
   }
 
   function addtoRunningCount(card) {
@@ -83,14 +80,14 @@ export default function Shoe() {
     return currentCard;
   }
   function isDealerWon() {
-    let dealerWin = true
+    let dealerWin = true;
     for (let i = 0; i < playerCardCount.length; i++) {
       if (playerCardCount[i] < 21) {
-          dealerWin =  false;
-          }
-        }
-        return dealerWin;
+        dealerWin = false;
       }
+    }
+    return dealerWin;
+  }
 
   useEffect(() => {
     setupShoe();
@@ -99,34 +96,32 @@ export default function Shoe() {
   useEffect(() => {
     if (!hands[players] || hands[players].length === 0) return;
     if (isDealer) {
-let stopCards = isDealerWon()
-console.log(stopCards, 'stopCards')
-if (stopCards){
-     setTimeout(() => {
-          setAllowReset(true);
-        }, 1500);
-    setPlaying(false);
-    setIsDealer(false);
-}
-else{
-      let dealerCardCount = calculatePlayerCardCount(players);
-      if (dealerCardCount < 17) {
-        setTimeout(() => {
-          const currentCard = drawHitCard(players);
-          addtoRunningCount(currentCard);
-        }, 800);
-        calculatePlayerCardCount(players);
-      }
-      if (dealerCardCount >= 17) {
+      let stopCards = isDealerWon();
+      console.log(stopCards, "stopCards");
+      if (stopCards) {
         setTimeout(() => {
           setAllowReset(true);
         }, 1500);
         setPlaying(false);
         setIsDealer(false);
+      } else {
+        let dealerCardCount = calculatePlayerCardCount(players);
+        if (dealerCardCount < 17) {
+          setTimeout(() => {
+            const currentCard = drawHitCard(players);
+            addtoRunningCount(currentCard);
+          }, 800);
+          calculatePlayerCardCount(players);
+        }
+        if (dealerCardCount >= 17) {
+          setTimeout(() => {
+            setAllowReset(true);
+          }, 1500);
+          setPlaying(false);
+          setIsDealer(false);
+        }
       }
     }
-}
-
   }, [hands, isDealer]);
 
   useEffect(() => {
@@ -194,7 +189,6 @@ else{
         total += Number(card.value);
       }
     }
-
     while (total > 21 && aces > 0) {
       total -= 10;
       aces -= 1;
@@ -216,7 +210,6 @@ else{
         setInitialCardsOut(true);
         return;
       }
-
       const currentCard = updatedDrawPile.pop();
       const playerIndex = i % (players + 1);
       dealtHands[playerIndex].push(currentCard);
@@ -244,14 +237,21 @@ else{
     setPlayers(0);
     setAllowReset(false);
   }
+  let isPlayerChosen = !!players;
 
   return (
     <div className="displayArea">
+      {(!drawPile || isChangePlayers) && (
+        <h1 className="title">What's the count?</h1>
+      )}
       <div className="infoSection">
         <div className="noPlayer">
           {(!drawPile || isChangePlayers) && (
             <div className="playerInfoWrapper">
-              <PlayerInfo handlePlayerAmount={handlePlayerAmount} />
+              <PlayerInfo
+                handlePlayerAmount={handlePlayerAmount}
+                isPlayerChosen={isPlayerChosen}
+              />
             </div>
           )}
           {(!drawPile || isChangePlayers) && (
