@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import Card from "./Card";
+import React, { useState, useEffect} from "react";
 import Dealer from "./Dealer.jsx";
 import IndividualPlayer from "./IndividualPlayer.jsx";
 import PlayerInfo from "./PlayerInfo.jsx";
 import CardCount from "./CardCount.jsx";
-import { DrawPileContext } from "./App.jsx";
 import {
   shoe,
   numbersAndPictures,
