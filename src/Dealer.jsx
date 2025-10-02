@@ -3,7 +3,7 @@ import Card from "./Card"
 export default function Dealer({hands, players}) {
 return(
      <div className="individualCardStack">
-                    <h1>DEALER</h1>
+                    <h2>DEALER</h2>
                     {hands[players]?.map((card, cardIndex) => (
                       <div
                         key={cardIndex}

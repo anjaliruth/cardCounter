@@ -10,14 +10,14 @@ export default function IndividualPlayer({
 }) {
   return (
     <div className="stackAndAction">
+        <h3>Player{playerIndex + 1}</h3>
       <div className="individualCardStack">
-        <h1>Player {playerIndex + 1}</h1>
         {hands[playerIndex]?.map((card, cardIndex) => (
           <div
             key={cardIndex}
             className="positionHolder"
             style={{
-              top: `${cardIndex * 15}px`,
+              top: `${cardIndex * 5}px`,
               left: `${cardIndex * 20}px`,
             }}
           >

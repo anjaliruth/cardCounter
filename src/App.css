@@ -10,17 +10,26 @@ body {
   font-family: "Cinzel Decorative", serif;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #006400, #013220);
+  overscroll-behavior: none;
+}
 .displayArea {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
-  background: radial-gradient(circle at center, #006400, #013220);
+  overflow: auto;
+  /* background: radial-gradient(circle at center, #006400, #013220); */
 }
 
-
-.title{
+.title {
   color: white;
 }
 .playAreaContainer {
@@ -60,11 +69,9 @@ body {
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
-  /* background-color: #2c5327; */
   border-radius: 2px;
-  min-height: 40vh;
-  min-width: 50vh;
-  gap: 50px;
+  /* min-height: 20vh;
+  min-width: 50vh; */
 }
 
 .positionHolder {
@@ -100,10 +107,10 @@ body {
 
 .individualCardStack {
   position: relative;
-  min-width: 140px;
+  min-width: 120px;
   border: 2px solid #e6d842;
   border-radius: 10px;
-  min-height: 180px;
+  min-height: 150px;
   /* background-color: #1a4861; */
 }
 
@@ -112,7 +119,7 @@ body {
   flex-direction: column;
   justify-content: center;
   /* background-color: #013220; */
-  gap: 30px
+  gap: 30px;
 }
 
 .noPlayerButtonBox {
@@ -121,12 +128,12 @@ body {
   flex-direction: row;
   gap: 10px;
 }
-.startingScreen{
-top: 20px
+.startingScreen {
+  top: 20px;
 }
-.startingGameControl{
-/* background-color: #519948; */
-margin-top: 50px;
+.startingGameControl {
+  /* background-color: #519948; */
+  margin-top: 50px;
 }
 .noPlayerButton {
   color: #e6d8a2;
@@ -140,11 +147,10 @@ margin-top: 50px;
   min-height: 40px;
 }
 
-.noPlayerButton:disabled{
+.noPlayerButton:disabled {
   color: gray;
-    border: 1.5px solid gray;
+  border: 1.5px solid gray;
 }
-
 
 .noPlayerHeading,
 .noPlayerSubheading {
@@ -237,7 +243,7 @@ margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 15px;
   box-shadow: 20px;
   /* border: 2px solid pink; */
 }
@@ -246,7 +252,7 @@ margin-top: 50px;
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 50px;
+  margin-top: 10px;
   /* background-color: #ffffff; */
 }
 .cardActionButton {
@@ -262,8 +268,8 @@ margin-top: 50px;
 }
 
 .Card {
-  width: 80px;
-  height: 120px;
+  width: 75px;
+  height: 95px;
   border: 1px solid #000;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
   border-radius: 10px;
