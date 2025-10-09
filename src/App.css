@@ -39,8 +39,8 @@ body {
   align-items: center;
   /* background: radial-gradient(circle at center, #006400, #013220); */
   width: 100vh;
-  height: 100vh;
-  /* background-color: #e6d842; */
+  height: 80vh;
+  padding-bottom: 0;
 }
 
 .noPlayerButton:hover,
@@ -70,8 +70,8 @@ body {
   justify-content: space-around;
   align-items: flex-start;
   border-radius: 2px;
-  /* min-height: 20vh;
-  min-width: 50vh; */
+ min-height: 20vh;
+  min-width: 50vh;
 }
 
 .positionHolder {
