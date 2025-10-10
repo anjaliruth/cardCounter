@@ -1,35 +1,29 @@
-# Getting Started with Create React App
+# Card Counting Trainer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React app to help you practice counting cards for Blackjack. Try it live: [https://cardcountingtrainer.netlify.app/](https://cardcountingtrainer.netlify.app/)
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Interactive card dealing for real-time counting practice
+- Simple card count logic
+- Responsive UI
 
-### `npm start`
+## Planned Improvements
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Enhanced Blackjack table styling for a more immersive experience
+- Add sound effects for dealing and shuffling
+- Implement actual card counting logic that factors in shoe size and true count calculation
+- When the player has pocket Blackjack remove the ability to choose an action
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+1. Clone the repo
+2. Run `npm install`
+3. Run `npm start` to launch the app
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Contributing
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
+Open to suggestions and pull requests for new features or improvements.
 
 **Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
